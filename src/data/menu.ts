@@ -1,5 +1,16 @@
 export type Category = '咖啡' | '甜點' | '沙拉' | '麵包' | '冰淇淋';
 
+export interface ModifierOption {
+  name: string;
+  priceDelta: number;
+}
+
+export interface ModifierGroup {
+  name: string;
+  options: ModifierOption[];
+  required: boolean;
+}
+
 export interface MenuItem {
   id: string;
   name: string;
@@ -7,9 +18,41 @@ export interface MenuItem {
   price: number;
   category: Category;
   imageUrl: string;
+  modifierGroups?: ModifierGroup[];
 }
 
 export const CATEGORIES: Category[] = ['咖啡', '甜點', '沙拉', '麵包', '冰淇淋'];
+
+// Common Coffee Modifiers
+const COFFEE_MODIFIERS: ModifierGroup[] = [
+  {
+    name: '溫度與冰塊',
+    required: true,
+    options: [
+      { name: '正常冰', priceDelta: 0 },
+      { name: '少冰', priceDelta: 0 },
+      { name: '去冰', priceDelta: 0 },
+      { name: '熱', priceDelta: 0 }
+    ]
+  },
+  {
+    name: '甜度',
+    required: true,
+    options: [
+      { name: '正常糖', priceDelta: 0 },
+      { name: '半糖', priceDelta: 0 },
+      { name: '無糖', priceDelta: 0 }
+    ]
+  },
+  {
+    name: '加料加價',
+    required: false,
+    options: [
+      { name: '加一份濃縮', priceDelta: 20 },
+      { name: '升級燕麥奶', priceDelta: 30 }
+    ]
+  }
+];
 
 export const MENU_ITEMS: MenuItem[] = [
   // 咖啡
@@ -19,7 +62,14 @@ export const MENU_ITEMS: MenuItem[] = [
     description: '濃郁醇厚的單品烘焙。',
     price: 80,
     category: '咖啡',
-    imageUrl: 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&q=80&w=600'
+    imageUrl: 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&q=80&w=600',
+    modifierGroups: [
+      {
+        name: '溫度',
+        required: true,
+        options: [{ name: '熱', priceDelta: 0 }]
+      }
+    ]
   },
   {
     id: 'c2',
@@ -27,7 +77,8 @@ export const MENU_ITEMS: MenuItem[] = [
     description: '細緻奶泡與滑順濃縮咖啡的完美結合。',
     price: 130,
     category: '咖啡',
-    imageUrl: 'https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?auto=format&fit=crop&q=80&w=600'
+    imageUrl: 'https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?auto=format&fit=crop&q=80&w=600',
+    modifierGroups: COFFEE_MODIFIERS
   },
   {
     id: 'c3',
@@ -35,7 +86,8 @@ export const MENU_ITEMS: MenuItem[] = [
     description: '等比例濃縮咖啡、熱牛奶與綿密奶泡。',
     price: 130,
     category: '咖啡',
-    imageUrl: '/images/cappuccino.png'
+    imageUrl: '/images/cappuccino.png',
+    modifierGroups: COFFEE_MODIFIERS
   },
   {
     id: 'c4',
@@ -43,7 +95,17 @@ export const MENU_ITEMS: MenuItem[] = [
     description: '手工濾泡，保留咖啡明亮香氣與清透口感。',
     price: 160,
     category: '咖啡',
-    imageUrl: 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80&w=600'
+    imageUrl: 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80&w=600',
+    modifierGroups: [
+      {
+        name: '溫度與冰塊',
+        required: true,
+        options: [
+          { name: '熱', priceDelta: 0 },
+          { name: '冰 (單一甜度)', priceDelta: 0 }
+        ]
+      }
+    ]
   },
   
   // 甜點

@@ -3,14 +3,17 @@ import { X, Minus, Plus, ShoppingBag } from 'lucide-react';
 import type { MenuItem } from '../data/menu';
 
 export interface CartItem extends MenuItem {
+  cartItemId: string;
   quantity: number;
+  modifiers?: Record<string, string>;
+  unitPrice: number;
 }
 
 interface CartProps {
   isOpen: boolean;
   onClose: () => void;
   items: CartItem[];
-  onUpdateQuantity: (id: string, delta: number) => void;
+  onUpdateQuantity: (cartItemId: string, delta: number) => void;
   onCheckout: () => void;
 }
 
@@ -21,7 +24,7 @@ export const Cart: React.FC<CartProps> = ({
   onUpdateQuantity,
   onCheckout,
 }) => {
-  const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const total = items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
 
   if (!isOpen) return null;
 
@@ -44,17 +47,20 @@ export const Cart: React.FC<CartProps> = ({
             </div>
           ) : (
             items.map((item) => (
-              <div key={item.id} className="cart-item">
+              <div key={item.cartItemId} className="cart-item">
                 <div className="item-info">
                   <h4>{item.name}</h4>
-                  <span className="item-price">${item.price}</span>
+                  {item.modifiers && Object.entries(item.modifiers).map(([k, v]) => (
+                    <div key={k} className="item-mod">{k}: {v}</div>
+                  ))}
+                  <span className="item-price">${item.unitPrice}</span>
                 </div>
                 <div className="quantity-controls">
-                  <button onClick={() => onUpdateQuantity(item.id, -1)}>
+                  <button onClick={() => onUpdateQuantity(item.cartItemId, -1)}>
                     <Minus size={16} />
                   </button>
                   <span>{item.quantity}</span>
-                  <button onClick={() => onUpdateQuantity(item.id, 1)}>
+                  <button onClick={() => onUpdateQuantity(item.cartItemId, 1)}>
                     <Plus size={16} />
                   </button>
                 </div>
@@ -171,6 +177,12 @@ export const Cart: React.FC<CartProps> = ({
           .item-info h4 {
             margin: 0 0 var(--spacing-1) 0;
             font-size: 1rem;
+          }
+
+          .item-mod {
+            font-size: 0.8rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 2px;
           }
 
           .item-price {

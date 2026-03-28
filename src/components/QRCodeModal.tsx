@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import { X } from 'lucide-react';
 
@@ -9,7 +9,11 @@ interface QRCodeModalProps {
 }
 
 export const QRCodeModal: React.FC<QRCodeModalProps> = ({ isOpen, onClose, url }) => {
+  const [tablePrefix, setTablePrefix] = useState('');
+
   if (!isOpen) return null;
+
+  const finalUrl = tablePrefix.trim() ? `${url}?table=${encodeURIComponent(tablePrefix.trim())}` : url;
 
   return (
     <div className="qr-backdrop animate-fade-in" onClick={onClose}>
@@ -18,11 +22,21 @@ export const QRCodeModal: React.FC<QRCodeModalProps> = ({ isOpen, onClose, url }
           <X size={24} />
         </button>
         <h2>手機掃碼點餐</h2>
-        <p className="qr-desc">請使用手機掃描此 QR Code 來開啟完整菜單並直接進行點餐。</p>
+        <p className="qr-desc">輸入桌號生成專屬點餐連結，或直接掃描開啟完整菜單。</p>
         
+        <div className="table-input-container">
+          <label>指定桌號 (選填)：</label>
+          <input 
+            type="text" 
+            placeholder="例如: A1, 5號桌" 
+            value={tablePrefix}
+            onChange={(e) => setTablePrefix(e.target.value)}
+          />
+        </div>
+
         <div className="qr-container">
           <QRCodeSVG 
-            value={url}
+            value={finalUrl}
             size={200}
             bgColor={"#ffffff"}
             fgColor={"#0f172a"}
@@ -79,9 +93,37 @@ export const QRCodeModal: React.FC<QRCodeModalProps> = ({ isOpen, onClose, url }
 
         .qr-desc {
           color: var(--color-text-secondary);
-          margin-bottom: var(--spacing-6);
+          margin-bottom: var(--spacing-4);
           font-size: 0.95rem;
           line-height: 1.5;
+        }
+
+        .table-input-container {
+          margin-bottom: var(--spacing-6);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: var(--spacing-3);
+        }
+
+        .table-input-container label {
+          font-size: 0.9rem;
+          color: var(--color-text-secondary);
+        }
+
+        .table-input-container input {
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          color: white;
+          padding: 8px 12px;
+          border-radius: var(--radius-sm);
+          outline: none;
+          max-width: 150px;
+          transition: border-color var(--transition-fast);
+        }
+
+        .table-input-container input:focus {
+          border-color: var(--color-bg-accent);
         }
 
         .qr-container {

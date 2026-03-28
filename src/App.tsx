@@ -3,34 +3,67 @@ import { Header } from './components/Header';
 import { Menu } from './components/Menu';
 import { Cart, type CartItem } from './components/Cart';
 import { QRCodeModal } from './components/QRCodeModal';
+import { ItemModifierModal, type ModifierSelection } from './components/ItemModifierModal';
+import { OrderTracker } from './components/OrderTracker';
 import type { MenuItem } from './data/menu';
 
 function App() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isQRModalOpen, setIsQRModalOpen] = useState(false);
+  const [tableNumber, setTableNumber] = useState<string | null>(null);
+  const [selectedItemForMod, setSelectedItemForMod] = useState<MenuItem | null>(null);
+  const [isTrackingOrder, setIsTrackingOrder] = useState(false);
   
   // Base URL for QR code - in production this would be the actual deployed URL
   const [currentUrl, setCurrentUrl] = useState('');
 
   useEffect(() => {
-    setCurrentUrl(window.location.href);
+    // Determine the base protocol and host, ignoring search params for the base URL.
+    const baseUrl = window.location.protocol + '//' + window.location.host + window.location.pathname;
+    setCurrentUrl(baseUrl);
+
+    // Read initial table parameter
+    const params = new URLSearchParams(window.location.search);
+    const tbl = params.get('table');
+    if (tbl) {
+      setTableNumber(tbl);
+    }
   }, []);
 
-  const handleAddToCart = (item: MenuItem) => {
-    setCartItems(prev => {
-      const existing = prev.find(i => i.id === item.id);
-      if (existing) {
-        return prev.map(i => i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i);
-      }
-      return [...prev, { ...item, quantity: 1 }];
-    });
-    // Optional: show a small toast notification here
+  const handleAddToCartClick = (item: MenuItem) => {
+    if (item.modifierGroups && item.modifierGroups.length > 0) {
+      setSelectedItemForMod(item);
+    } else {
+      handleConfirmAdd(item, {}, 1);
+    }
   };
 
-  const handleUpdateQuantity = (id: string, delta: number) => {
+  const handleConfirmAdd = (item: MenuItem, modifiers: ModifierSelection, quantity: number) => {
+    setCartItems(prev => {
+      let unitPrice = item.price;
+      if (item.modifierGroups) {
+        item.modifierGroups.forEach(g => {
+          if (modifiers[g.name]) {
+            const opt = g.options.find(o => o.name === modifiers[g.name]);
+            if (opt) unitPrice += opt.priceDelta;
+          }
+        });
+      }
+
+      const cartItemId = `${item.id}-${JSON.stringify(modifiers)}`;
+      const existing = prev.find(i => i.cartItemId === cartItemId);
+      if (existing) {
+        return prev.map(i => i.cartItemId === cartItemId ? { ...i, quantity: i.quantity + quantity } : i);
+      }
+      return [...prev, { ...item, cartItemId, quantity, modifiers, unitPrice }];
+    });
+    setSelectedItemForMod(null);
+  };
+
+  const handleUpdateQuantity = (cartItemId: string, delta: number) => {
     setCartItems(prev => prev.map(item => {
-      if (item.id === id) {
+      if (item.cartItemId === cartItemId) {
         const newQuantity = Math.max(0, item.quantity + delta);
         return { ...item, quantity: newQuantity };
       }
@@ -39,34 +72,44 @@ function App() {
   };
 
   const handleCheckout = () => {
-    alert('感謝您的訂購！您的餐點已經送出。');
     setCartItems([]);
     setIsCartOpen(false);
+    setIsTrackingOrder(true);
   };
 
   return (
     <div className="app-layout">
       <Header 
         cartItemCount={cartItems.reduce((acc, item) => acc + item.quantity, 0)} 
+        tableNumber={tableNumber}
         onOpenCart={() => setIsCartOpen(true)} 
       />
       
       <main>
-        <div className="hero-section text-center">
-          <h2 className="animate-fade-in text-gradient">歡迎來到 Order Cafe</h2>
-          <p className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
-            體驗最高品質的咖啡與精緻手作餐點。
-          </p>
-          <button 
-            className="glass-btn generate-qr-btn animate-fade-in" 
-            style={{ animationDelay: '0.2s' }}
-            onClick={() => setIsQRModalOpen(true)}
-          >
-            顯示點餐 QR Code
-          </button>
-        </div>
+        {isTrackingOrder ? (
+          <OrderTracker 
+            tableNumber={tableNumber} 
+            onNewOrder={() => setIsTrackingOrder(false)} 
+          />
+        ) : (
+          <>
+            <div className="hero-section text-center">
+              <h2 className="animate-fade-in text-gradient">歡迎來到 Order Cafe</h2>
+              <p className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
+                體驗最高品質的咖啡與精緻手作餐點。
+              </p>
+              <button 
+                className="glass-btn generate-qr-btn animate-fade-in" 
+                style={{ animationDelay: '0.2s' }}
+                onClick={() => setIsQRModalOpen(true)}
+              >
+                顯示點餐 QR Code
+              </button>
+            </div>
 
-        <Menu onAddToCart={handleAddToCart} />
+            <Menu onAddToCart={handleAddToCartClick} />
+          </>
+        )}
       </main>
 
       <Cart 
@@ -81,6 +124,12 @@ function App() {
         isOpen={isQRModalOpen}
         onClose={() => setIsQRModalOpen(false)}
         url={currentUrl}
+      />
+
+      <ItemModifierModal
+        item={selectedItemForMod}
+        onClose={() => setSelectedItemForMod(null)}
+        onConfirm={handleConfirmAdd}
       />
 
       <style>{`

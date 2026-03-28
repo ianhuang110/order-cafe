@@ -3,15 +3,17 @@ import { Coffee, ShoppingBag } from 'lucide-react';
 
 interface HeaderProps {
   cartItemCount: number;
+  tableNumber: string | null;
   onOpenCart: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ cartItemCount, onOpenCart }) => {
+export const Header: React.FC<HeaderProps> = ({ cartItemCount, tableNumber, onOpenCart }) => {
   return (
     <header className="glass-panel header-container">
       <div className="logo">
         <Coffee className="logo-icon" size={28} />
         <h1>Order Cafe</h1>
+        {tableNumber && <span className="table-badge glass-panel">桌號: {tableNumber}</span>}
       </div>
       <button className="glass-btn cart-btn" onClick={onOpenCart}>
         <ShoppingBag size={20} />
@@ -51,6 +53,16 @@ export const Header: React.FC<HeaderProps> = ({ cartItemCount, onOpenCart }) => 
           background: linear-gradient(to right, #ffffff, #94a3b8);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
+        }
+
+        .table-badge {
+          margin-left: var(--spacing-4);
+          padding: 4px 12px;
+          font-size: 0.85rem;
+          font-weight: 600;
+          color: var(--color-bg-accent);
+          border-color: rgba(59, 130, 246, 0.3);
+          background: rgba(59, 130, 246, 0.1);
         }
 
         .cart-btn {
