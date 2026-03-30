@@ -50,18 +50,20 @@ export const Menu: React.FC<MenuProps> = ({ onAddToCart }) => {
 
   return (
     <div className="menu-container">
-      <div className="search-bar-container">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="search-icon">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-        <input 
-          type="text" 
-          placeholder="搜尋餐點或描述..." 
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="search-input"
-        />
+      <div className="search-bar-wrapper">
+        <div className="search-bar-container">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="search-icon">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input 
+            type="text" 
+            placeholder="搜尋餐點或描述..." 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="search-input"
+          />
+        </div>
       </div>
 
       <div className="menu-layout">
@@ -132,10 +134,23 @@ export const Menu: React.FC<MenuProps> = ({ onAddToCart }) => {
           margin: 0 auto;
         }
 
+        .search-bar-wrapper {
+          position: sticky;
+          top: 70px;
+          z-index: 40;
+          padding: 10px var(--spacing-4);
+          background: rgba(12, 10, 9, 0.95);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          margin-bottom: var(--spacing-8);
+          margin-left: calc(var(--spacing-4) * -1);
+          margin-right: calc(var(--spacing-4) * -1);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
         .search-bar-container {
           position: relative;
-          margin-bottom: var(--spacing-8);
-          max-width: 500px;
+          max-width: 800px;
           margin-left: auto;
           margin-right: auto;
         }
@@ -182,7 +197,7 @@ export const Menu: React.FC<MenuProps> = ({ onAddToCart }) => {
 
         .category-sidebar {
           position: sticky;
-          top: 100px; /* Offset for header */
+          top: 155px; /* Offset for header + search */
           width: 180px;
           flex-shrink: 0;
           display: flex;
@@ -286,7 +301,7 @@ export const Menu: React.FC<MenuProps> = ({ onAddToCart }) => {
           }
           .category-sidebar {
             width: 85px;
-            top: 80px;
+            top: 135px;
             padding-right: 0;
             max-height: calc(100vh - 100px);
             overflow-y: auto;
@@ -305,6 +320,7 @@ export const Menu: React.FC<MenuProps> = ({ onAddToCart }) => {
             white-space: normal;
             line-height: 1.2;
             min-height: 60px;
+            flex-shrink: 0;
           }
           .btn-indicator {
             width: 3px;

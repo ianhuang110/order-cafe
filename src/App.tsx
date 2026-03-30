@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Header } from './components/Header';
 import { Menu } from './components/Menu';
 import { Cart, type CartItem } from './components/Cart';
@@ -14,6 +15,15 @@ function App() {
   const [tableNumber, setTableNumber] = useState<string | null>(null);
   const [selectedItemForMod, setSelectedItemForMod] = useState<MenuItem | null>(null);
   const [editingCartItem, setEditingCartItem] = useState<CartItem | null>(null);
+  const [showHero, setShowHero] = useState(true);
+
+  useEffect(() => {
+    // Hide hero and promo after 8 seconds
+    const timer = setTimeout(() => {
+      setShowHero(false);
+    }, 8000);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     // Read initial table parameter
@@ -105,19 +115,30 @@ function App() {
         onOpenCart={() => setIsCartOpen(true)} 
       />
       
-      <PromoBanner />
+      <AnimatePresence>
+        {showHero && (
+          <motion.div
+            initial={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0, overflow: 'hidden' }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            style={{ display: 'flex', flexDirection: 'column' }}
+          >
+            <PromoBanner />
+            
+            <figure className="hero-section text-center" style={{ margin: '2rem 2rem var(--spacing-8)' }}>
+              <div className="hero-bg"></div>
+              <div className="hero-content">
+                <h2 className="animate-fade-in text-gradient">歡迎來到 Order Cafe</h2>
+                <p className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
+                  體驗最高品質的職人咖啡與精緻手作餐點。
+                </p>
+              </div>
+            </figure>
+          </motion.div>
+        )}
+      </AnimatePresence>
       
       <main>
-        <div className="hero-section text-center">
-          <div className="hero-bg"></div>
-          <div className="hero-content">
-            <h2 className="animate-fade-in text-gradient">歡迎來到 Order Cafe</h2>
-            <p className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
-              體驗最高品質的職人咖啡與精緻手作餐點。
-            </p>
-          </div>
-        </div>
-
         <Menu onAddToCart={handleAddToCartClick} />
       </main>
 
@@ -160,12 +181,8 @@ function App() {
           position: relative;
           padding: 8rem var(--spacing-4) 7rem;
           text-align: center;
-          margin-bottom: var(--spacing-8);
           border-radius: var(--radius-xl);
           overflow: hidden;
-          margin-top: 2rem;
-          margin-left: 2rem;
-          margin-right: 2rem;
           box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
 
@@ -213,9 +230,7 @@ function App() {
         @media (max-width: 768px) {
           .hero-section {
             padding: 5rem var(--spacing-4) 4rem;
-            margin-top: 1rem;
-            margin-left: 1rem;
-            margin-right: 1rem;
+            margin: 1rem 1rem var(--spacing-6) !important;
           }
           .text-gradient {
             font-size: 2.2rem;
