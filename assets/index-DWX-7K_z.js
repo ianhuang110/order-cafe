@@ -628,7 +628,7 @@ Error generating stack: `+e.message+`
         .mod-confirm-btn:not(:disabled):hover {
           background: var(--color-bg-accent-hover);
         }
-      `})]})},Z=({isOpen:e,onClose:t,onConfirm:n,items:r})=>{if(!e)return null;let i=r.reduce((e,t)=>e+t.unitPrice*t.quantity,0);return(0,D.jsxs)(`div`,{className:`confirm-backdrop animate-fade-in`,onClick:t,children:[(0,D.jsxs)(`div`,{className:`confirm-modal glass-panel`,onClick:e=>e.stopPropagation(),children:[(0,D.jsx)(`button`,{className:`confirm-close`,onClick:t,children:(0,D.jsx)(T,{size:24})}),(0,D.jsx)(`h2`,{children:`確認您的訂購明細`}),(0,D.jsx)(`div`,{className:`confirm-items`,children:r.map(e=>(0,D.jsxs)(`div`,{className:`confirm-item`,children:[(0,D.jsxs)(`div`,{className:`confirm-item-info`,children:[(0,D.jsxs)(`span`,{className:`confirm-item-name`,children:[e.name,` × `,e.quantity]}),e.modifiers&&Object.entries(e.modifiers).map(([e,t])=>(0,D.jsxs)(`div`,{className:`confirm-item-mod`,children:[e,`: `,t]},e))]}),(0,D.jsxs)(`span`,{className:`confirm-item-price`,children:[`$`,e.unitPrice*e.quantity]})]},e.cartItemId))}),(0,D.jsxs)(`div`,{className:`confirm-footer`,children:[(0,D.jsxs)(`div`,{className:`confirm-total`,children:[(0,D.jsx)(`span`,{children:`總計金額`}),(0,D.jsxs)(`span`,{children:[`$`,i]})]}),(0,D.jsx)(`button`,{className:`confirm-btn`,onClick:n,children:`確認結帳並送出訂單`})]})]}),(0,D.jsx)(`style`,{children:`
+      `})]})},Z=({isOpen:e,onClose:t,onConfirm:n,items:r})=>{let[i,a]=b.useState(!1),[o,s]=b.useState(!1);if(b.useEffect(()=>{e||(a(!1),s(!1))},[e]),!e)return null;let c=r.reduce((e,t)=>e+t.unitPrice*t.quantity,0);return(0,D.jsxs)(`div`,{className:`confirm-backdrop animate-fade-in`,onClick:i?void 0:t,children:[(0,D.jsxs)(`div`,{className:`confirm-modal glass-panel`,onClick:e=>e.stopPropagation(),children:[!i&&!o&&(0,D.jsx)(`button`,{className:`confirm-close`,onClick:t,children:(0,D.jsx)(T,{size:24})}),i?(0,D.jsxs)(`div`,{className:`mock-checkout-state`,children:[(0,D.jsx)(`div`,{className:`spinner`}),(0,D.jsx)(`h2`,{children:`正在處理付款中...`}),(0,D.jsx)(`p`,{children:`請勿關閉視窗`})]}):o?(0,D.jsxs)(`div`,{className:`mock-checkout-state success-state`,children:[(0,D.jsx)(`div`,{className:`success-icon`,children:`✓`}),(0,D.jsx)(`h2`,{children:`付款成功！`}),(0,D.jsx)(`p`,{children:`您的訂單已為您準備中`})]}):(0,D.jsxs)(D.Fragment,{children:[(0,D.jsx)(`h2`,{children:`確認您的訂購明細`}),(0,D.jsx)(`div`,{className:`confirm-items`,children:r.map(e=>(0,D.jsxs)(`div`,{className:`confirm-item`,children:[(0,D.jsxs)(`div`,{className:`confirm-item-info`,children:[(0,D.jsxs)(`span`,{className:`confirm-item-name`,children:[e.name,` × `,e.quantity]}),e.modifiers&&Object.entries(e.modifiers).map(([e,t])=>(0,D.jsxs)(`div`,{className:`confirm-item-mod`,children:[e,`: `,t]},e))]}),(0,D.jsxs)(`span`,{className:`confirm-item-price`,children:[`$`,e.unitPrice*e.quantity]})]},e.cartItemId))}),(0,D.jsxs)(`div`,{className:`confirm-footer`,children:[(0,D.jsxs)(`div`,{className:`confirm-total`,children:[(0,D.jsx)(`span`,{children:`總計金額`}),(0,D.jsxs)(`span`,{children:[`$`,c]})]}),(0,D.jsx)(`button`,{className:`confirm-btn`,onClick:()=>{a(!0),setTimeout(()=>{a(!1),s(!0),setTimeout(()=>{n()},1500)},2e3)},children:`送出訂單`})]})]})]}),(0,D.jsx)(`style`,{children:`
         .confirm-backdrop {
           position: fixed;
           inset: 0;
@@ -761,6 +761,65 @@ Error generating stack: `+e.message+`
         .confirm-btn:active {
           transform: scale(0.98);
         }
+
+        .mock-checkout-state {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: var(--spacing-8) 0;
+          min-height: 250px;
+          text-align: center;
+          animation: fade-in 0.3s ease-out forwards;
+        }
+
+        .mock-checkout-state h2 {
+          margin-top: var(--spacing-5) !important;
+          margin-bottom: var(--spacing-2) !important;
+          font-size: 1.5rem !important;
+        }
+
+        .mock-checkout-state p {
+          color: var(--color-text-secondary);
+          margin: 0;
+        }
+
+        .spinner {
+          width: 50px;
+          height: 50px;
+          border: 4px solid rgba(255, 255, 255, 0.1);
+          border-left-color: var(--color-bg-accent);
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+        }
+
+        .success-state {
+          animation: pop-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .success-icon {
+          width: 60px;
+          height: 60px;
+          background: #10B981;
+          color: white;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 2rem;
+          font-weight: bold;
+          box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pop-in {
+          0% { transform: scale(0.8); opacity: 0; }
+          100% { transform: scale(1); opacity: 1; }
+        }
       `})]})},Gu=()=>(0,D.jsxs)(`div`,{className:`promo-banner`,children:[(0,D.jsxs)(`div`,{className:`banner-content`,children:[(0,D.jsx)(`span`,{className:`badge`,children:`春季限定`}),(0,D.jsx)(`p`,{children:`新品上市！宇治抹茶拿鐵、瑪格麗特帕尼尼 每日限量供應 🎉`})]}),(0,D.jsx)(`style`,{children:`
         .promo-banner {
           background: linear-gradient(90deg, rgba(59, 130, 246, 0.15) 0%, rgba(147, 51, 234, 0.15) 100%);
@@ -811,7 +870,7 @@ Error generating stack: `+e.message+`
           0% { transform: translateX(0); }
           100% { transform: translateX(-100%); }
         }
-      `})]});function Ku(){let[e,t]=(0,b.useState)([]),[n,r]=(0,b.useState)(!1),[i,a]=(0,b.useState)(!1),[o,s]=(0,b.useState)(null),[c,l]=(0,b.useState)(null);return(0,b.useEffect)(()=>{let e=new URLSearchParams(window.location.search).get(`table`);e&&s(e)},[]),(0,D.jsxs)(`div`,{className:`app-layout`,children:[(0,D.jsx)(de,{cartItemCount:e.reduce((e,t)=>e+t.quantity,0),tableNumber:o,onOpenCart:()=>r(!0)}),(0,D.jsx)(Gu,{}),(0,D.jsxs)(`main`,{children:[(0,D.jsxs)(`div`,{className:`hero-section text-center`,children:[(0,D.jsx)(`div`,{className:`hero-bg`}),(0,D.jsxs)(`div`,{className:`hero-content`,children:[(0,D.jsx)(`h2`,{className:`animate-fade-in text-gradient`,children:`歡迎來到 Order Cafe`}),(0,D.jsx)(`p`,{className:`animate-fade-in`,style:{animationDelay:`0.1s`},children:`體驗最高品質的職人咖啡與精緻手作餐點。`})]})]}),(0,D.jsx)(Hu,{onAddToCart:e=>{l(e)}})]}),(0,D.jsx)(Uu,{isOpen:n,onClose:()=>r(!1),items:e,onUpdateQuantity:(e,n)=>{t(t=>t.map(t=>{if(t.cartItemId===e){let e=Math.max(0,t.quantity+n);return{...t,quantity:e}}return t}).filter(e=>e.quantity>0))},onCheckout:()=>{a(!0)}}),(0,D.jsx)(Z,{isOpen:i,onClose:()=>a(!1),onConfirm:()=>{t([]),r(!1),a(!1),alert(`訂單已送出！`)},items:e}),(0,D.jsx)(Wu,{item:c,onClose:()=>l(null),onConfirm:(e,n,r)=>{t(t=>{let i=e.price;e.modifierGroups&&e.modifierGroups.forEach(e=>{if(n[e.name]){let t=e.options.find(t=>t.name===n[e.name]);t&&(i+=t.priceDelta)}});let a=`${e.id}-${JSON.stringify(n)}`;return t.find(e=>e.cartItemId===a)?t.map(e=>e.cartItemId===a?{...e,quantity:e.quantity+r}:e):[...t,{...e,cartItemId:a,quantity:r,modifiers:n,unitPrice:i}]}),l(null)}}),(0,D.jsx)(`style`,{children:`
+      `})]});function Ku(){let[e,t]=(0,b.useState)([]),[n,r]=(0,b.useState)(!1),[i,a]=(0,b.useState)(!1),[o,s]=(0,b.useState)(null),[c,l]=(0,b.useState)(null);return(0,b.useEffect)(()=>{let e=new URLSearchParams(window.location.search).get(`table`);e&&s(e)},[]),(0,D.jsxs)(`div`,{className:`app-layout`,children:[(0,D.jsx)(de,{cartItemCount:e.reduce((e,t)=>e+t.quantity,0),tableNumber:o,onOpenCart:()=>r(!0)}),(0,D.jsx)(Gu,{}),(0,D.jsxs)(`main`,{children:[(0,D.jsxs)(`div`,{className:`hero-section text-center`,children:[(0,D.jsx)(`div`,{className:`hero-bg`}),(0,D.jsxs)(`div`,{className:`hero-content`,children:[(0,D.jsx)(`h2`,{className:`animate-fade-in text-gradient`,children:`歡迎來到 Order Cafe`}),(0,D.jsx)(`p`,{className:`animate-fade-in`,style:{animationDelay:`0.1s`},children:`體驗最高品質的職人咖啡與精緻手作餐點。`})]})]}),(0,D.jsx)(Hu,{onAddToCart:e=>{l(e)}})]}),(0,D.jsx)(Uu,{isOpen:n,onClose:()=>r(!1),items:e,onUpdateQuantity:(e,n)=>{t(t=>t.map(t=>{if(t.cartItemId===e){let e=Math.max(0,t.quantity+n);return{...t,quantity:e}}return t}).filter(e=>e.quantity>0))},onCheckout:()=>{a(!0)}}),(0,D.jsx)(Z,{isOpen:i,onClose:()=>a(!1),onConfirm:()=>{t([]),r(!1),a(!1)},items:e}),(0,D.jsx)(Wu,{item:c,onClose:()=>l(null),onConfirm:(e,n,r)=>{t(t=>{let i=e.price;e.modifierGroups&&e.modifierGroups.forEach(e=>{if(n[e.name]){let t=e.options.find(t=>t.name===n[e.name]);t&&(i+=t.priceDelta)}});let a=`${e.id}-${JSON.stringify(n)}`;return t.find(e=>e.cartItemId===a)?t.map(e=>e.cartItemId===a?{...e,quantity:e.quantity+r}:e):[...t,{...e,cartItemId:a,quantity:r,modifiers:n,unitPrice:i}]}),l(null)}}),(0,D.jsx)(`style`,{children:`
         .app-layout {
           min-height: 100vh;
           display: flex;
