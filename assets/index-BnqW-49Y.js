@@ -85,7 +85,7 @@ Error generating stack: `+e.message+`
           border-radius: 50%;
           box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
         }
-      `})]}),Bu=[`組合套餐`,`咖啡`,`茶飲`,`甜點`,`沙拉`,`麵包`,`輕食`,`冰淇淋`,`周邊商品`],Vu=[{name:`溫度與冰塊`,required:!0,options:[{name:`正常冰`,priceDelta:0},{name:`少冰`,priceDelta:0},{name:`去冰`,priceDelta:0},{name:`熱`,priceDelta:0}]},{name:`甜度`,required:!0,options:[{name:`正常糖`,priceDelta:0},{name:`半糖`,priceDelta:0},{name:`無糖`,priceDelta:0}]},{name:`加料加價`,required:!1,multiSelect:!0,options:[{name:`加一份濃縮`,priceDelta:20},{name:`升級燕麥奶`,priceDelta:30}]}],Hu=[{id:`cb1`,name:`精緻下午茶套餐`,description:`任選經典拿鐵或伯爵鮮奶茶，搭配招牌法式馬卡龍。`,price:220,category:`組合套餐`,imageUrl:`./images/combo_tea.png`,modifierGroups:[{name:`選擇飲品`,required:!0,options:[{name:`經典拿鐵`,priceDelta:0},{name:`伯爵鮮奶茶`,priceDelta:0}]},...Vu]},{id:`cb2`,name:`早晨活力套餐`,description:`經典美式咖啡搭配現烤奶油可頌，一日的完美開始。`,price:130,category:`組合套餐`,imageUrl:`./images/combo_morning.png`,modifierGroups:Vu},{id:`c1`,name:`義式濃縮咖啡`,description:`濃郁醇厚的單品烘焙。`,price:80,category:`咖啡`,imageUrl:`https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&q=80&w=600`,modifierGroups:[{name:`溫度`,required:!0,options:[{name:`熱`,priceDelta:0}]}]},{id:`c2`,name:`經典拿鐵`,description:`細緻奶泡與滑順濃縮咖啡的完美結合。`,price:130,category:`咖啡`,imageUrl:`https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?auto=format&fit=crop&q=80&w=600`,modifierGroups:Vu},{id:`c3`,name:`卡布奇諾`,description:`等比例濃縮咖啡、熱牛奶與綿密奶泡。`,price:130,category:`咖啡`,imageUrl:`./images/cappuccino.png`,modifierGroups:Vu},{id:`c4`,name:`手沖咖啡`,description:`手工濾泡，保留咖啡明亮香氣與清透口感。`,price:160,category:`咖啡`,imageUrl:`https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80&w=600`,modifierGroups:[{name:`溫度與冰塊`,required:!0,options:[{name:`熱`,priceDelta:0},{name:`冰 (單一甜度)`,priceDelta:0}]}]},{id:`t1`,name:`宇治抹茶拿鐵`,description:`京都頂級抹茶粉調和香醇小農鮮奶。`,price:150,category:`茶飲`,imageUrl:`./images/matcha_latte.png`,modifierGroups:Vu},{id:`t2`,name:`伯爵鮮奶茶`,description:`帶有佛手柑香氣的斯里蘭卡紅茶與鮮奶完美結合。`,price:130,category:`茶飲`,imageUrl:`./images/earl_grey.png`,modifierGroups:Vu},{id:`t3`,name:`夏日柚子氣泡飲`,description:`清香韓國柚子醬搭配氣泡水，清爽解膩。`,price:120,category:`茶飲`,imageUrl:`./images/yuzu_sparkling.png`},{id:`d1`,name:`經典提拉米蘇`,description:`浸滿義式濃縮的拇指餅乾交織馬斯卡彭起司。`,price:150,category:`甜點`,imageUrl:`https://images.unsplash.com/photo-1571115177098-24ec42ed204d?auto=format&fit=crop&q=80&w=600`},{id:`d2`,name:`紐約重乳酪蛋糕`,description:`濃郁綿密的乳酪與奶油消化餅乾底。`,price:140,category:`甜點`,imageUrl:`https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&q=80&w=600`},{id:`d3`,name:`法式馬卡龍 (3顆)`,description:`精緻鬆脆外殼包裹滑順甘納許餡。`,price:120,category:`甜點`,imageUrl:`https://images.unsplash.com/photo-1569864358642-9d1684040f43?auto=format&fit=crop&q=80&w=600`},{id:`s1`,name:`雞肉凱薩沙拉`,description:`爽脆蘿蔓、烤雞胸肉、帕瑪森起司、香烤麵包丁與經典醬汁。`,price:220,category:`沙拉`,imageUrl:`https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&q=80&w=600`},{id:`s2`,name:`健康藜麥碗`,description:`營養豐富的藜麥拌烤蔬菜、酪梨與檸檬油醋。`,price:240,category:`沙拉`,imageUrl:`https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=600`},{id:`b1`,name:`奶油可頌`,description:`金黃酥脆的層次，每天早晨新鮮烘焙。`,price:65,category:`麵包`,imageUrl:`https://images.unsplash.com/photo-1517433670267-08bbd4be890f?auto=format&fit=crop&q=80&w=600`},{id:`b2`,name:`工匠法棍`,description:`傳統法式麵包，外層酥脆內部Q彈。`,price:80,category:`麵包`,imageUrl:`https://images.unsplash.com/photo-1597079910443-60c43fc4f729?auto=format&fit=crop&q=80&w=600`},{id:`b3`,name:`烤酸種麵包佐奶油`,description:`微酸有嚼勁的熱烤酸種麵包，搭配頂級奶油。`,price:90,category:`麵包`,imageUrl:`./images/sourdough.png`},{id:`lm1`,name:`經典瑪格麗特帕尼尼`,description:`熱壓吐司包裹新鮮番茄、羅勒與濃郁莫札瑞拉起司。`,price:180,category:`輕食`,imageUrl:`https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&q=80&w=600`},{id:`lm2`,name:`法式洛林鹹派`,description:`酥脆派皮盛滿培根、洋蔥與滑順蛋液烘烤而成。`,price:160,category:`輕食`,imageUrl:`./images/quiche_lorraine.png`},{id:`i1`,name:`馬達加斯加香草籽`,description:`使用真實香草籽製成的經典濃郁冰淇淋。`,price:100,category:`冰淇淋`,imageUrl:`./images/vanilla.png`},{id:`i2`,name:`京都特濃厚抹茶`,description:`頂級微苦帶有大地氣息的抹茶冰淇淋。`,price:120,category:`冰淇淋`,imageUrl:`./images/matcha.png`},{id:`i3`,name:`極致黑巧克力布朗尼`,description:`70%黑巧克力搭配濕潤的布朗尼塊。`,price:110,category:`冰淇淋`,imageUrl:`./images/chocolate.png`},{id:`m1`,name:`店長精選 綜合咖啡豆 (250g)`,description:`中深焙，散發太妃糖、堅果與黑巧克力的醇厚香氣。`,price:450,category:`周邊商品`,imageUrl:`./images/merch_beans.png`,modifierGroups:[{name:`是否代客磨豆`,required:!0,options:[{name:`不需磨豆 (原豆)`,priceDelta:0},{name:`義式咖啡機 (極細)`,priceDelta:0},{name:`手沖濾紙 (中度)`,priceDelta:0}]}]},{id:`m2`,name:`品牌特製霧黑保溫杯`,description:`304不鏽鋼材質，保溫保冷長達12小時，手感極佳。`,price:880,category:`周邊商品`,imageUrl:`./images/merch_tumbler.png`},{id:`m3`,name:`經典莊園濾掛包禮盒 (10入)`,description:`採用衣索比亞水洗豆，帶有明亮的柑橘香與花香。`,price:350,category:`周邊商品`,imageUrl:`./images/merch_drip.png`}],Uu=({item:e,onAdd:t})=>(0,U.jsxs)(`div`,{className:`glass-panel menu-card animate-fade-in`,children:[(0,U.jsx)(`div`,{className:`image-container`,children:(0,U.jsx)(`img`,{src:e.imageUrl,alt:e.name,loading:`lazy`})}),(0,U.jsxs)(`div`,{className:`content`,children:[(0,U.jsxs)(`div`,{className:`header`,children:[(0,U.jsx)(`h3`,{children:e.name}),(0,U.jsxs)(`span`,{className:`price`,children:[`$`,e.price]})]}),(0,U.jsx)(`p`,{children:e.description}),(0,U.jsxs)(`button`,{className:`add-btn`,onClick:()=>t(e),children:[(0,U.jsx)(Iu,{size:16}),(0,U.jsx)(`span`,{children:`加入購物車`})]})]}),(0,U.jsx)(`style`,{children:`
+      `})]}),Bu=[`組合套餐`,`咖啡`,`茶飲`,`甜點`,`沙拉`,`麵包`,`輕食`,`冰淇淋`,`周邊商品`],Vu=[{name:`溫度與冰塊`,required:!0,options:[{name:`正常冰`,priceDelta:0},{name:`少冰`,priceDelta:0},{name:`去冰`,priceDelta:0},{name:`熱`,priceDelta:0}]},{name:`甜度`,required:!0,options:[{name:`正常糖`,priceDelta:0},{name:`半糖`,priceDelta:0},{name:`無糖`,priceDelta:0}]},{name:`加料加價`,required:!1,multiSelect:!0,options:[{name:`加一份濃縮`,priceDelta:20},{name:`升級燕麥奶`,priceDelta:30}]}],Hu=[{id:`cb1`,name:`精緻下午茶套餐`,description:`任選經典拿鐵或伯爵鮮奶茶，搭配招牌法式馬卡龍。`,price:220,category:`組合套餐`,imageUrl:`./images/combo_tea.png`,modifierGroups:[{name:`選擇飲品`,required:!0,options:[{name:`經典拿鐵`,priceDelta:0},{name:`伯爵鮮奶茶`,priceDelta:0}]},...Vu]},{id:`cb2`,name:`早晨活力套餐`,description:`經典美式咖啡搭配現烤奶油可頌，一日的完美開始。`,price:130,category:`組合套餐`,imageUrl:`./images/combo_morning.png`,modifierGroups:Vu},{id:`c1`,name:`義式濃縮咖啡`,description:`濃郁醇厚的單品烘焙。`,price:80,category:`咖啡`,imageUrl:`https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&q=80&w=600`,modifierGroups:[{name:`溫度`,required:!0,options:[{name:`熱`,priceDelta:0}]}]},{id:`c2`,name:`經典拿鐵`,description:`細緻奶泡與滑順濃縮咖啡的完美結合。`,price:130,category:`咖啡`,imageUrl:`https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?auto=format&fit=crop&q=80&w=600`,modifierGroups:Vu},{id:`c3`,name:`卡布奇諾`,description:`等比例濃縮咖啡、熱牛奶與綿密奶泡。`,price:130,category:`咖啡`,imageUrl:`./images/cappuccino.png`,modifierGroups:Vu},{id:`c4`,name:`手沖咖啡`,description:`手工濾泡，保留咖啡明亮香氣與清透口感。`,price:160,category:`咖啡`,imageUrl:`https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80&w=600`,modifierGroups:[{name:`溫度與冰塊`,required:!0,options:[{name:`熱`,priceDelta:0},{name:`冰 (單一甜度)`,priceDelta:0}]}]},{id:`t1`,name:`宇治抹茶拿鐵`,description:`京都頂級抹茶粉調和香醇小農鮮奶。`,price:150,category:`茶飲`,imageUrl:`./images/matcha_latte.png`,modifierGroups:Vu},{id:`t2`,name:`伯爵鮮奶茶`,description:`帶有佛手柑香氣的斯里蘭卡紅茶與鮮奶完美結合。`,price:130,category:`茶飲`,imageUrl:`./images/earl_grey.png`,modifierGroups:Vu},{id:`t3`,name:`夏日柚子氣泡飲`,description:`清香韓國柚子醬搭配氣泡水，清爽解膩。`,price:120,category:`茶飲`,imageUrl:`./images/yuzu_sparkling.png`},{id:`d1`,name:`經典提拉米蘇`,description:`浸滿義式濃縮的拇指餅乾交織馬斯卡彭起司。`,price:150,category:`甜點`,imageUrl:`https://images.unsplash.com/photo-1571115177098-24ec42ed204d?auto=format&fit=crop&q=80&w=600`},{id:`d2`,name:`紐約重乳酪蛋糕`,description:`濃郁綿密的乳酪與奶油消化餅乾底。`,price:140,category:`甜點`,imageUrl:`https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&q=80&w=600`},{id:`d3`,name:`法式馬卡龍 (3顆)`,description:`精緻鬆脆外殼包裹滑順甘納許餡。`,price:120,category:`甜點`,imageUrl:`https://images.unsplash.com/photo-1569864358642-9d1684040f43?auto=format&fit=crop&q=80&w=600`},{id:`s1`,name:`雞肉凱薩沙拉`,description:`爽脆蘿蔓、烤雞胸肉、帕瑪森起司、香烤麵包丁與經典醬汁。`,price:220,category:`沙拉`,imageUrl:`https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&q=80&w=600`},{id:`s2`,name:`健康藜麥碗`,description:`營養豐富的藜麥拌烤蔬菜、酪梨與檸檬油醋。`,price:240,category:`沙拉`,imageUrl:`https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=600`},{id:`b1`,name:`奶油可頌`,description:`金黃酥脆的層次，每天早晨新鮮烘焙。`,price:65,category:`麵包`,imageUrl:`https://images.unsplash.com/photo-1517433670267-08bbd4be890f?auto=format&fit=crop&q=80&w=600`},{id:`b2`,name:`工匠法棍`,description:`傳統法式麵包，外層酥脆內部Q彈。`,price:80,category:`麵包`,imageUrl:`https://images.unsplash.com/photo-1597079910443-60c43fc4f729?auto=format&fit=crop&q=80&w=600`},{id:`b3`,name:`烤酸種麵包佐奶油`,description:`微酸有嚼勁的熱烤酸種麵包，搭配頂級奶油。`,price:90,category:`麵包`,imageUrl:`./images/sourdough.png`},{id:`lm1`,name:`經典瑪格麗特帕尼尼`,description:`熱壓吐司包裹新鮮番茄、羅勒與濃郁莫札瑞拉起司。`,price:180,category:`輕食`,imageUrl:`https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&q=80&w=600`},{id:`lm2`,name:`法式洛林鹹派`,description:`酥脆派皮盛滿培根、洋蔥與滑順蛋液烘烤而成。`,price:160,category:`輕食`,imageUrl:`./images/quiche_lorraine.png`},{id:`i1`,name:`馬達加斯加香草籽`,description:`使用真實香草籽製成的經典濃郁冰淇淋。`,price:100,category:`冰淇淋`,imageUrl:`./images/vanilla.png`},{id:`i2`,name:`京都特濃厚抹茶`,description:`頂級微苦帶有大地氣息的抹茶冰淇淋。`,price:120,category:`冰淇淋`,imageUrl:`./images/matcha.png`},{id:`i3`,name:`極致黑巧克力布朗尼`,description:`70%黑巧克力搭配濕潤的布朗尼塊。`,price:110,category:`冰淇淋`,imageUrl:`./images/chocolate.png`},{id:`m1`,name:`店長精選 綜合咖啡豆 (250g)`,description:`中深焙，散發太妃糖、堅果與黑巧克力的醇厚香氣。`,price:450,category:`周邊商品`,imageUrl:`./images/merch_beans.png`,modifierGroups:[{name:`是否代客磨豆`,required:!0,options:[{name:`不需磨豆 (原豆)`,priceDelta:0},{name:`義式咖啡機 (極細)`,priceDelta:0},{name:`手沖濾紙 (中度)`,priceDelta:0}]}]},{id:`m2`,name:`品牌特製霧黑保溫杯`,description:`304不鏽鋼材質，保溫保冷長達12小時，手感極佳。`,price:880,category:`周邊商品`,imageUrl:`./images/merch_tumbler.png`},{id:`m3`,name:`經典莊園濾掛包禮盒 (10入)`,description:`採用衣索比亞水洗豆，帶有明亮的柑橘香與花香。`,price:350,category:`周邊商品`,imageUrl:`./images/merch_drip.png`}],Uu=({item:e,onAdd:t,quantityInCart:n=0})=>(0,U.jsxs)(`div`,{className:`glass-panel menu-card animate-fade-in ${n>0?`has-ordered`:``}`,children:[(0,U.jsxs)(`div`,{className:`image-container`,children:[n>0&&(0,U.jsxs)(`div`,{className:`ordered-badge`,children:[`已加入 `,n]}),(0,U.jsx)(`img`,{src:e.imageUrl,alt:e.name,loading:`lazy`})]}),(0,U.jsxs)(`div`,{className:`content`,children:[(0,U.jsxs)(`div`,{className:`header`,children:[(0,U.jsx)(`h3`,{children:e.name}),(0,U.jsxs)(`span`,{className:`price`,children:[`$`,e.price]})]}),(0,U.jsx)(`p`,{children:e.description}),(0,U.jsxs)(`button`,{className:`add-btn`,onClick:()=>t(e),children:[(0,U.jsx)(Iu,{size:16}),(0,U.jsx)(`span`,{children:`加入購物車`})]})]}),(0,U.jsx)(`style`,{children:`
         .menu-card {
           overflow: hidden;
           display: flex;
@@ -100,10 +100,44 @@ Error generating stack: `+e.message+`
           border-color: rgba(255, 255, 255, 0.2);
         }
 
+        .menu-card.has-ordered {
+          border-color: rgba(193, 154, 107, 0.9);
+          box-shadow: 
+            0 0 0 1px rgba(193, 154, 107, 0.9),
+            0 12px 25px rgba(193, 154, 107, 0.35), 
+            inset 0 0 15px rgba(193, 154, 107, 0.15);
+          transform: translateY(-4px);
+        }
+
+        .menu-card.has-ordered:hover {
+          transform: translateY(-8px);
+          box-shadow: 
+            0 0 0 1px rgba(223, 189, 142, 1),
+            0 15px 35px rgba(193, 154, 107, 0.45), 
+            inset 0 0 20px rgba(193, 154, 107, 0.2);
+          border-color: rgba(223, 189, 142, 1);
+        }
+
         .image-container {
+          position: relative;
           width: 100%;
           height: 200px;
           overflow: hidden;
+        }
+
+        .ordered-badge {
+          position: absolute;
+          top: 14px;
+          right: 14px;
+          background: linear-gradient(135deg, #dfbd8e, #c19a6b);
+          color: #0c0a09;
+          padding: 6px 16px;
+          border-radius: 9999px;
+          font-weight: 800;
+          font-size: 0.95rem;
+          z-index: 10;
+          box-shadow: 0 6px 20px rgba(193, 154, 107, 0.6);
+          letter-spacing: 0.05em;
         }
 
         .image-container img {
@@ -170,7 +204,7 @@ Error generating stack: `+e.message+`
           background: var(--color-bg-accent);
           color: white;
         }
-      `})]}),Wu=({onAddToCart:e})=>{let[t,n]=(0,b.useState)(Bu[0]),[r,i]=(0,b.useState)(``),a=(0,b.useRef)({});(0,b.useEffect)(()=>{let e=new IntersectionObserver(e=>{let t=e.filter(e=>e.isIntersecting);t.length>0&&n(t[0].target.id)},{rootMargin:`-100px 0px -60% 0px`,threshold:0});return Object.values(a.current).forEach(t=>{t&&e.observe(t)}),()=>e.disconnect()},[r]);let o=e=>{n(e);let t=a.current[e];if(t){let e=t.getBoundingClientRect().top+window.scrollY-90;window.scrollTo({top:e,behavior:`smooth`})}},s=r.trim().length>0,c=r.toLowerCase();return(0,U.jsxs)(`div`,{className:`menu-container`,children:[(0,U.jsx)(`div`,{className:`search-bar-wrapper`,children:(0,U.jsxs)(`div`,{className:`search-bar-container`,children:[(0,U.jsxs)(`svg`,{xmlns:`http://www.w3.org/2000/svg`,width:`20`,height:`20`,viewBox:`0 0 24 24`,fill:`none`,stroke:`currentColor`,strokeWidth:`2`,strokeLinecap:`round`,strokeLinejoin:`round`,className:`search-icon`,children:[(0,U.jsx)(`circle`,{cx:`11`,cy:`11`,r:`8`}),(0,U.jsx)(`line`,{x1:`21`,y1:`21`,x2:`16.65`,y2:`16.65`})]}),(0,U.jsx)(`input`,{type:`text`,placeholder:`搜尋餐點或描述...`,value:r,onChange:e=>i(e.target.value),className:`search-input`}),r&&(0,U.jsx)(`button`,{className:`search-clear-btn`,onClick:()=>i(``),"aria-label":`清除搜尋`,children:(0,U.jsx)(Ru,{size:18})})]})}),(0,U.jsxs)(`div`,{className:`menu-layout`,children:[(0,U.jsx)(`div`,{className:`category-sidebar`,children:Bu.map(e=>(0,U.jsxs)(`button`,{className:`sidebar-btn ${t===e?`active`:``}`,onClick:()=>o(e),children:[(0,U.jsx)(`div`,{className:`btn-indicator`}),e]},e))}),(0,U.jsx)(`div`,{className:`menu-content`,children:s?(0,U.jsx)(`div`,{className:`menu-grid`,children:(0,U.jsx)(Nc,{mode:`popLayout`,children:Hu.filter(e=>e.name.toLowerCase().includes(c)||e.description.toLowerCase().includes(c)||e.category.toLowerCase().includes(c)).map(t=>(0,U.jsx)(Su.div,{initial:{opacity:0,y:20},animate:{opacity:1,y:0},exit:{opacity:0,scale:.9},transition:{duration:.2},children:(0,U.jsx)(Uu,{item:t,onAdd:e})},t.id))})}):(0,U.jsx)(`div`,{className:`menu-sections`,children:Bu.map(t=>{let n=Hu.filter(e=>e.category===t);return n.length===0?null:(0,U.jsxs)(`div`,{id:t,className:`category-section`,ref:e=>{a.current[t]=e},children:[(0,U.jsx)(`h3`,{className:`category-title`,children:t}),(0,U.jsx)(`div`,{className:`menu-grid`,children:n.map(t=>(0,U.jsx)(Uu,{item:t,onAdd:e},t.id))})]},t)})})})]}),(0,U.jsx)(`style`,{children:`
+      `})]}),Wu=({onAddToCart:e,cartItems:t})=>{let[n,r]=(0,b.useState)(Bu[0]),[i,a]=(0,b.useState)(``),o=(0,b.useRef)({});(0,b.useEffect)(()=>{let e=new IntersectionObserver(e=>{let t=e.filter(e=>e.isIntersecting);t.length>0&&r(t[0].target.id)},{rootMargin:`-100px 0px -60% 0px`,threshold:0});return Object.values(o.current).forEach(t=>{t&&e.observe(t)}),()=>e.disconnect()},[i]);let s=e=>{r(e);let t=o.current[e];if(t){let e=t.getBoundingClientRect().top+window.scrollY-90;window.scrollTo({top:e,behavior:`smooth`})}},c=i.trim().length>0,l=i.toLowerCase(),u=c?Hu.filter(e=>e.name.toLowerCase().includes(l)||e.description.toLowerCase().includes(l)||e.category.toLowerCase().includes(l)):[];return(0,U.jsxs)(`div`,{className:`menu-container`,children:[(0,U.jsx)(`div`,{className:`search-bar-wrapper`,children:(0,U.jsxs)(`div`,{className:`search-bar-container`,children:[(0,U.jsxs)(`svg`,{xmlns:`http://www.w3.org/2000/svg`,width:`20`,height:`20`,viewBox:`0 0 24 24`,fill:`none`,stroke:`currentColor`,strokeWidth:`2`,strokeLinecap:`round`,strokeLinejoin:`round`,className:`search-icon`,children:[(0,U.jsx)(`circle`,{cx:`11`,cy:`11`,r:`8`}),(0,U.jsx)(`line`,{x1:`21`,y1:`21`,x2:`16.65`,y2:`16.65`})]}),(0,U.jsx)(`input`,{type:`text`,placeholder:`搜尋餐點或描述...`,value:i,onChange:e=>a(e.target.value),className:`search-input`}),i&&(0,U.jsx)(`button`,{className:`search-clear-btn`,onClick:()=>a(``),"aria-label":`清除搜尋`,children:(0,U.jsx)(Ru,{size:18})})]})}),(0,U.jsxs)(`div`,{className:`menu-layout`,children:[(0,U.jsx)(`div`,{className:`category-sidebar`,children:Bu.map(e=>{let r=t.filter(t=>t.category===e).reduce((e,t)=>e+t.quantity,0);return(0,U.jsxs)(`button`,{className:`sidebar-btn ${n===e?`active`:``}`,onClick:()=>s(e),children:[(0,U.jsx)(`div`,{className:`btn-indicator`}),(0,U.jsx)(`span`,{className:`btn-label`,children:e}),r>0&&(0,U.jsx)(`span`,{className:`sidebar-badge`,children:r})]},e)})}),(0,U.jsx)(`div`,{className:`menu-content`,children:c?u.length>0?(0,U.jsx)(`div`,{className:`menu-grid`,children:(0,U.jsx)(Nc,{mode:`popLayout`,children:u.map(n=>(0,U.jsx)(Su.div,{initial:{opacity:0,y:20},animate:{opacity:1,y:0},exit:{opacity:0,scale:.9},transition:{duration:.2},children:(0,U.jsx)(Uu,{item:n,onAdd:e,quantityInCart:t.filter(e=>e.id===n.id).reduce((e,t)=>e+t.quantity,0)})},n.id))})}):(0,U.jsxs)(Su.div,{initial:{opacity:0,y:10},animate:{opacity:1,y:0},className:`no-results-message glass-panel`,children:[(0,U.jsxs)(`svg`,{xmlns:`http://www.w3.org/2000/svg`,width:`48`,height:`48`,viewBox:`0 0 24 24`,fill:`none`,stroke:`currentColor`,strokeWidth:`1`,strokeLinecap:`round`,strokeLinejoin:`round`,className:`no-results-icon`,children:[(0,U.jsx)(`circle`,{cx:`11`,cy:`11`,r:`8`}),(0,U.jsx)(`line`,{x1:`21`,y1:`21`,x2:`16.65`,y2:`16.65`})]}),(0,U.jsxs)(`p`,{children:[`抱歉，找不到符合「`,i,`」的餐點`]})]}):(0,U.jsx)(`div`,{className:`menu-sections`,children:Bu.map(n=>{let r=Hu.filter(e=>e.category===n);return r.length===0?null:(0,U.jsxs)(`div`,{id:n,className:`category-section`,ref:e=>{o.current[n]=e},children:[(0,U.jsx)(`h3`,{className:`category-title`,children:n}),(0,U.jsx)(`div`,{className:`menu-grid`,children:r.map(n=>(0,U.jsx)(Uu,{item:n,onAdd:e,quantityInCart:t.filter(e=>e.id===n.id).reduce((e,t)=>e+t.quantity,0)},n.id))})]},n)})})})]}),(0,U.jsx)(`style`,{children:`
         .menu-container {
           padding: 0 var(--spacing-4) var(--spacing-8);
           max-width: 1200px;
@@ -274,6 +308,7 @@ Error generating stack: `+e.message+`
         .sidebar-btn {
           display: flex;
           align-items: center;
+          justify-content: space-between;
           text-align: left;
           padding: 0.8rem 1rem;
           border-radius: var(--radius-md);
@@ -286,6 +321,7 @@ Error generating stack: `+e.message+`
           cursor: pointer;
           position: relative;
           overflow: hidden;
+          gap: 8px;
         }
 
         .sidebar-btn:hover {
@@ -319,9 +355,53 @@ Error generating stack: `+e.message+`
           transform: scaleY(1);
         }
 
+        .sidebar-badge {
+          background: rgba(193, 154, 107, 0.9);
+          color: white;
+          font-size: 0.75rem;
+          font-weight: 800;
+          padding: 3px 8px;
+          border-radius: 9999px;
+          min-width: 24px;
+          text-align: center;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+          transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .sidebar-btn.active .sidebar-badge {
+          background: linear-gradient(135deg, #dfbd8e, #c19a6b);
+          color: #0c0a09;
+        }
+
         .menu-content {
           flex: 1;
           min-width: 0;
+        }
+
+        .no-results-message {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 4rem 2rem;
+          text-align: center;
+          color: rgba(255, 255, 255, 0.6);
+          border: 1px dashed rgba(255, 255, 255, 0.2);
+          border-radius: var(--radius-lg);
+          margin-top: var(--spacing-4);
+        }
+
+        .no-results-icon {
+          color: rgba(255, 255, 255, 0.2);
+          margin-bottom: var(--spacing-4);
+        }
+
+        .no-results-message p {
+          font-size: 1.1rem;
+          margin: 0;
         }
 
         .category-section {
@@ -381,11 +461,22 @@ Error generating stack: `+e.message+`
             font-size: 0.9rem;
             text-align: center;
             justify-content: center;
+            flex-direction: column;
             border-radius: var(--radius-md) 0 0 var(--radius-md);
             white-space: normal;
             line-height: 1.2;
             min-height: 60px;
             flex-shrink: 0;
+            gap: 4px;
+          }
+          .sidebar-badge {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            padding: 2px 6px;
+            font-size: 0.65rem;
+            min-width: 18px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.5);
           }
           .btn-indicator {
             width: 3px;
@@ -1023,7 +1114,7 @@ Error generating stack: `+e.message+`
           0% { transform: translateX(0); }
           100% { transform: translateX(-100%); }
         }
-      `})]});function Ju(){let[e,t]=(0,b.useState)([]),[n,r]=(0,b.useState)(!1),[i,a]=(0,b.useState)(!1),[o,s]=(0,b.useState)(null),[c,l]=(0,b.useState)(null),[u,d]=(0,b.useState)(null),[f,p]=(0,b.useState)(!0);return(0,b.useEffect)(()=>{let e=setTimeout(()=>{p(!1)},5e3);return()=>clearTimeout(e)},[]),(0,b.useEffect)(()=>{let e=new URLSearchParams(window.location.search).get(`table`);e&&s(e)},[]),(0,U.jsxs)(`div`,{className:`app-layout`,children:[(0,U.jsx)(zu,{cartItemCount:e.reduce((e,t)=>e+t.quantity,0),tableNumber:o,onOpenCart:()=>r(!0)}),(0,U.jsx)(Nc,{children:f&&(0,U.jsxs)(Su.div,{initial:{opacity:1,height:`auto`},exit:{opacity:0,height:0,overflow:`hidden`},transition:{duration:.8,ease:`easeInOut`},style:{display:`flex`,flexDirection:`column`},children:[(0,U.jsx)(qu,{}),(0,U.jsxs)(`figure`,{className:`hero-section text-center`,style:{margin:`2rem 2rem var(--spacing-8)`},children:[(0,U.jsx)(`div`,{className:`hero-bg`}),(0,U.jsxs)(`div`,{className:`hero-content`,children:[(0,U.jsx)(`h2`,{className:`animate-fade-in text-gradient`,children:`歡迎來到 Order Cafe`}),(0,U.jsx)(`p`,{className:`animate-fade-in`,style:{animationDelay:`0.1s`},children:`體驗最高品質的職人咖啡與精緻手作餐點。`})]})]})]})}),(0,U.jsx)(`main`,{children:(0,U.jsx)(Wu,{onAddToCart:e=>{l(e)}})}),(0,U.jsx)(Z,{isOpen:n,onClose:()=>r(!1),items:e,onUpdateQuantity:(e,n)=>{t(t=>t.map(t=>{if(t.cartItemId===e){let e=Math.max(0,t.quantity+n);return{...t,quantity:e}}return t}).filter(e=>e.quantity>0))},onEditItem:e=>{d(e)},onCheckout:()=>{a(!0)}}),(0,U.jsx)(Ku,{isOpen:i,onClose:()=>a(!1),onConfirm:()=>{t([]),r(!1),a(!1)},items:e}),(0,U.jsx)(Gu,{item:c||u,initialSelections:u?.modifiers,initialQuantity:u?.quantity,isEditing:!!u,onClose:()=>{l(null),d(null)},onConfirm:(e,n,r)=>{t(t=>{let i=e.price;e.modifierGroups&&e.modifierGroups.forEach(e=>{let t=n[e.name];if(Array.isArray(t))t.forEach(t=>{let n=e.options.find(e=>e.name===t);n&&(i+=n.priceDelta)});else if(t){let n=e.options.find(e=>e.name===t);n&&(i+=n.priceDelta)}});let a=`${e.id}-${JSON.stringify(n)}`,o=[...t];if(u){let t=o.findIndex(e=>e.cartItemId===u.cartItemId);if(t>-1){let s=o.findIndex(e=>e.cartItemId===a&&e.cartItemId!==u.cartItemId);return s>-1?(o[s]={...o[s],quantity:o[s].quantity+r},o.splice(t,1)):o[t]={...e,cartItemId:a,quantity:r,modifiers:n,unitPrice:i},o}}return t.findIndex(e=>e.cartItemId===a)>-1?t.map(e=>e.cartItemId===a?{...e,quantity:e.quantity+r}:e):[...t,{...e,cartItemId:a,quantity:r,modifiers:n,unitPrice:i}]}),l(null),d(null)}}),(0,U.jsx)(`style`,{children:`
+      `})]});function Ju(){let[e,t]=(0,b.useState)([]),[n,r]=(0,b.useState)(!1),[i,a]=(0,b.useState)(!1),[o,s]=(0,b.useState)(null),[c,l]=(0,b.useState)(null),[u,d]=(0,b.useState)(null),[f,p]=(0,b.useState)(!0);return(0,b.useEffect)(()=>{let e=setTimeout(()=>{p(!1)},5e3);return()=>clearTimeout(e)},[]),(0,b.useEffect)(()=>{let e=new URLSearchParams(window.location.search).get(`table`);e&&s(e)},[]),(0,U.jsxs)(`div`,{className:`app-layout`,children:[(0,U.jsx)(zu,{cartItemCount:e.reduce((e,t)=>e+t.quantity,0),tableNumber:o,onOpenCart:()=>r(!0)}),(0,U.jsx)(Nc,{children:f&&(0,U.jsxs)(Su.div,{initial:{opacity:1,height:`auto`},exit:{opacity:0,height:0,overflow:`hidden`},transition:{duration:.8,ease:`easeInOut`},style:{display:`flex`,flexDirection:`column`},children:[(0,U.jsx)(qu,{}),(0,U.jsxs)(`figure`,{className:`hero-section text-center`,style:{margin:`2rem 2rem var(--spacing-8)`},children:[(0,U.jsx)(`div`,{className:`hero-bg`}),(0,U.jsxs)(`div`,{className:`hero-content`,children:[(0,U.jsx)(`h2`,{className:`animate-fade-in text-gradient`,children:`歡迎來到 Order Cafe`}),(0,U.jsx)(`p`,{className:`animate-fade-in`,style:{animationDelay:`0.1s`},children:`體驗最高品質的職人咖啡與精緻手作餐點。`})]})]})]})}),(0,U.jsx)(`main`,{children:(0,U.jsx)(Wu,{onAddToCart:e=>{l(e)},cartItems:e})}),(0,U.jsx)(Z,{isOpen:n,onClose:()=>r(!1),items:e,onUpdateQuantity:(e,n)=>{t(t=>t.map(t=>{if(t.cartItemId===e){let e=Math.max(0,t.quantity+n);return{...t,quantity:e}}return t}).filter(e=>e.quantity>0))},onEditItem:e=>{d(e)},onCheckout:()=>{a(!0)}}),(0,U.jsx)(Ku,{isOpen:i,onClose:()=>a(!1),onConfirm:()=>{t([]),r(!1),a(!1)},items:e}),(0,U.jsx)(Gu,{item:c||u,initialSelections:u?.modifiers,initialQuantity:u?.quantity,isEditing:!!u,onClose:()=>{l(null),d(null)},onConfirm:(e,n,r)=>{t(t=>{let i=e.price;e.modifierGroups&&e.modifierGroups.forEach(e=>{let t=n[e.name];if(Array.isArray(t))t.forEach(t=>{let n=e.options.find(e=>e.name===t);n&&(i+=n.priceDelta)});else if(t){let n=e.options.find(e=>e.name===t);n&&(i+=n.priceDelta)}});let a=`${e.id}-${JSON.stringify(n)}`,o=[...t];if(u){let t=o.findIndex(e=>e.cartItemId===u.cartItemId);if(t>-1){let s=o.findIndex(e=>e.cartItemId===a&&e.cartItemId!==u.cartItemId);return s>-1?(o[s]={...o[s],quantity:o[s].quantity+r},o.splice(t,1)):o[t]={...e,cartItemId:a,quantity:r,modifiers:n,unitPrice:i},o}}return t.findIndex(e=>e.cartItemId===a)>-1?t.map(e=>e.cartItemId===a?{...e,quantity:e.quantity+r}:e):[...t,{...e,cartItemId:a,quantity:r,modifiers:n,unitPrice:i}]}),l(null),d(null)}}),(0,U.jsx)(`style`,{children:`
         .app-layout {
           min-height: 100vh;
           display: flex;
