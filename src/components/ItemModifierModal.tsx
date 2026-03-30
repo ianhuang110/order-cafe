@@ -8,17 +8,23 @@ export interface ModifierSelection {
 
 interface ItemModifierModalProps {
   item: MenuItem | null;
+  initialSelections?: ModifierSelection;
+  initialQuantity?: number;
+  isEditing?: boolean;
   onClose: () => void;
   onConfirm: (item: MenuItem, modifiers: ModifierSelection, quantity: number) => void;
 }
 
-export const ItemModifierModal: React.FC<ItemModifierModalProps> = ({ item, onClose, onConfirm }) => {
+export const ItemModifierModal: React.FC<ItemModifierModalProps> = ({ item, initialSelections, initialQuantity, isEditing, onClose, onConfirm }) => {
   const [selections, setSelections] = useState<ModifierSelection>({});
   const [quantity, setQuantity] = useState(1);
 
   // Initialize defaults
   useEffect(() => {
-    if (item && item.modifierGroups) {
+    if (item && initialSelections) {
+      setSelections(initialSelections);
+      setQuantity(initialQuantity || 1);
+    } else if (item && item.modifierGroups) {
       const initial: ModifierSelection = {};
       item.modifierGroups.forEach(g => {
         if (g.multiSelect) {
@@ -33,7 +39,7 @@ export const ItemModifierModal: React.FC<ItemModifierModalProps> = ({ item, onCl
       setSelections({});
       setQuantity(1);
     }
-  }, [item]);
+  }, [item, initialSelections, initialQuantity]);
 
   if (!item) return null;
 
@@ -137,7 +143,7 @@ export const ItemModifierModal: React.FC<ItemModifierModalProps> = ({ item, onCl
             disabled={!isFormValid()}
             onClick={() => onConfirm(item, selections, quantity)}
           >
-            <span>加入購物車</span>
+            <span>{isEditing ? '更新購物車' : '加入購物車'}</span>
             <span className="mod-total">${calculateTotalPrice()}</span>
           </button>
         </div>

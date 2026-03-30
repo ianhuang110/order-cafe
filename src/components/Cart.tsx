@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Minus, Plus, ShoppingBag } from 'lucide-react';
+import { X, Minus, Plus, ShoppingBag, Edit2 } from 'lucide-react';
 import type { MenuItem } from '../data/menu';
 
 export interface CartItem extends MenuItem {
@@ -14,6 +14,7 @@ interface CartProps {
   onClose: () => void;
   items: CartItem[];
   onUpdateQuantity: (cartItemId: string, delta: number) => void;
+  onEditItem: (cartItem: CartItem) => void;
   onCheckout: () => void;
 }
 
@@ -22,6 +23,7 @@ export const Cart: React.FC<CartProps> = ({
   onClose,
   items,
   onUpdateQuantity,
+  onEditItem,
   onCheckout,
 }) => {
   const total = items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
@@ -49,7 +51,12 @@ export const Cart: React.FC<CartProps> = ({
             items.map((item) => (
               <div key={item.cartItemId} className="cart-item">
                 <div className="item-info">
-                  <h4>{item.name}</h4>
+                  <div className="item-title-row">
+                    <h4>{item.name}</h4>
+                    <button className="edit-btn" onClick={() => onEditItem(item)} aria-label="編輯">
+                      <Edit2 size={14} /> 編輯
+                    </button>
+                  </div>
                   {item.modifiers && Object.entries(item.modifiers).map(([k, v]) => (
                     <div key={k} className="item-mod">{k}: {Array.isArray(v) ? v.join(', ') : v}</div>
                   ))}
@@ -174,9 +181,35 @@ export const Cart: React.FC<CartProps> = ({
             flex-grow: 1;
           }
 
+          .item-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--spacing-1);
+          }
+
           .item-info h4 {
-            margin: 0 0 var(--spacing-1) 0;
+            margin: 0;
             font-size: 1rem;
+          }
+
+          .edit-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: transparent;
+            border: none;
+            color: var(--color-text-secondary);
+            font-size: 0.8rem;
+            cursor: pointer;
+            padding: 2px 4px;
+            border-radius: var(--radius-sm);
+            transition: all var(--transition-fast);
+          }
+
+          .edit-btn:hover {
+            color: var(--color-bg-accent);
+            background: rgba(193, 154, 107, 0.1);
           }
 
           .item-mod {

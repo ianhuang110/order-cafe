@@ -13,6 +13,8 @@ function App() {
   const [isOrderConfirmOpen, setIsOrderConfirmOpen] = useState(false);
   const [tableNumber, setTableNumber] = useState<string | null>(null);
   const [selectedItemForMod, setSelectedItemForMod] = useState<MenuItem | null>(null);
+  const [editingCartItem, setEditingCartItem] = useState<CartItem | null>(null);
+
   useEffect(() => {
     // Read initial table parameter
     const params = new URLSearchParams(window.location.search);
@@ -45,13 +47,34 @@ function App() {
       }
 
       const cartItemId = `${item.id}-${JSON.stringify(modifiers)}`;
-      const existing = prev.find(i => i.cartItemId === cartItemId);
-      if (existing) {
+      
+      const newItems = [...prev];
+      if (editingCartItem) {
+        const editIdx = newItems.findIndex(i => i.cartItemId === editingCartItem.cartItemId);
+        if (editIdx > -1) {
+          const existingIdx = newItems.findIndex(i => i.cartItemId === cartItemId && i.cartItemId !== editingCartItem.cartItemId);
+          if (existingIdx > -1) {
+            newItems[existingIdx] = { ...newItems[existingIdx], quantity: newItems[existingIdx].quantity + quantity };
+            newItems.splice(editIdx, 1);
+          } else {
+            newItems[editIdx] = { ...item, cartItemId, quantity, modifiers, unitPrice };
+          }
+          return newItems;
+        }
+      }
+
+      const existingParams = prev.findIndex(i => i.cartItemId === cartItemId);
+      if (existingParams > -1) {
         return prev.map(i => i.cartItemId === cartItemId ? { ...i, quantity: i.quantity + quantity } : i);
       }
       return [...prev, { ...item, cartItemId, quantity, modifiers, unitPrice }];
     });
     setSelectedItemForMod(null);
+    setEditingCartItem(null);
+  };
+
+  const handleEditCartItem = (cartItem: CartItem) => {
+    setEditingCartItem(cartItem);
   };
 
   const handleUpdateQuantity = (cartItemId: string, delta: number) => {
@@ -103,6 +126,7 @@ function App() {
         onClose={() => setIsCartOpen(false)}
         items={cartItems}
         onUpdateQuantity={handleUpdateQuantity}
+        onEditItem={handleEditCartItem}
         onCheckout={handleCheckoutClick}
       />
 
@@ -114,8 +138,14 @@ function App() {
       />
 
       <ItemModifierModal
-        item={selectedItemForMod}
-        onClose={() => setSelectedItemForMod(null)}
+        item={selectedItemForMod || editingCartItem}
+        initialSelections={editingCartItem?.modifiers}
+        initialQuantity={editingCartItem?.quantity}
+        isEditing={!!editingCartItem}
+        onClose={() => {
+          setSelectedItemForMod(null);
+          setEditingCartItem(null);
+        }}
         onConfirm={handleConfirmAdd}
       />
 
