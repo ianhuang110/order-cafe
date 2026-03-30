@@ -3,7 +3,6 @@ import { Header } from './components/Header';
 import { Menu } from './components/Menu';
 import { Cart, type CartItem } from './components/Cart';
 import { ItemModifierModal, type ModifierSelection } from './components/ItemModifierModal';
-import { OrderTracker } from './components/OrderTracker';
 import { OrderConfirmModal } from './components/OrderConfirmModal';
 import { PromoBanner } from './components/PromoBanner';
 import type { MenuItem } from './data/menu';
@@ -14,8 +13,6 @@ function App() {
   const [isOrderConfirmOpen, setIsOrderConfirmOpen] = useState(false);
   const [tableNumber, setTableNumber] = useState<string | null>(null);
   const [selectedItemForMod, setSelectedItemForMod] = useState<MenuItem | null>(null);
-  const [isTrackingOrder, setIsTrackingOrder] = useState(false);
-  
   useEffect(() => {
     // Read initial table parameter
     const params = new URLSearchParams(window.location.search);
@@ -69,7 +66,7 @@ function App() {
     setCartItems([]);
     setIsCartOpen(false);
     setIsOrderConfirmOpen(false);
-    setIsTrackingOrder(true);
+    alert('訂單已送出！');
   };
 
   return (
@@ -83,26 +80,17 @@ function App() {
       <PromoBanner />
       
       <main>
-        {isTrackingOrder ? (
-          <OrderTracker 
-            tableNumber={tableNumber} 
-            onNewOrder={() => setIsTrackingOrder(false)} 
-          />
-        ) : (
-          <>
-            <div className="hero-section text-center">
-              <div className="hero-bg"></div>
-              <div className="hero-content">
-                <h2 className="animate-fade-in text-gradient">歡迎來到 Order Cafe</h2>
-                <p className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
-                  體驗最高品質的職人咖啡與精緻手作餐點。
-                </p>
-              </div>
-            </div>
+        <div className="hero-section text-center">
+          <div className="hero-bg"></div>
+          <div className="hero-content">
+            <h2 className="animate-fade-in text-gradient">歡迎來到 Order Cafe</h2>
+            <p className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
+              體驗最高品質的職人咖啡與精緻手作餐點。
+            </p>
+          </div>
+        </div>
 
-            <Menu onAddToCart={handleAddToCartClick} />
-          </>
-        )}
+        <Menu onAddToCart={handleAddToCartClick} />
       </main>
 
       <Cart 
