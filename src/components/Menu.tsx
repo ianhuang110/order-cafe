@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { CATEGORIES, type Category, MENU_ITEMS, type MenuItem } from '../data/menu';
 import { MenuItemCard } from './MenuItemCard';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -8,32 +8,48 @@ interface MenuProps {
 }
 
 export const Menu: React.FC<MenuProps> = ({ onAddToCart }) => {
-  const [activeCategory, setActiveCategory] = useState<Category>('咖啡');
+  const [activeCategory, setActiveCategory] = useState<Category>(CATEGORIES[0]);
   const [searchQuery, setSearchQuery] = useState('');
+  const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
-  const filteredItems = MENU_ITEMS.filter((item) => {
-    const matchesCategory = searchQuery ? true : item.category === activeCategory;
-    const searchLower = searchQuery.toLowerCase();
-    const matchesSearch = item.name.toLowerCase().includes(searchLower) || 
-                          item.description.toLowerCase().includes(searchLower) ||
-                          item.category.toLowerCase().includes(searchLower);
-    return matchesCategory && matchesSearch;
-  });
+  useEffect(() => {
+    // Observer options to trigger when section is in the upper part of the screen
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleEntries = entries.filter((entry) => entry.isIntersecting);
+        if (visibleEntries.length > 0) {
+          // If multiple are visible, usually the first one intersecting from the top is best
+          // The intersection ratio can be used, but simple first one is fine.
+          setActiveCategory(visibleEntries[0].target.id as Category);
+        }
+      },
+      {
+        rootMargin: '-100px 0px -60% 0px', // Adjust to trigger active state near top
+        threshold: 0,
+      }
+    );
+
+    Object.values(sectionRefs.current).forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => observer.disconnect();
+  }, [searchQuery]); // re-run if search changes layout
+
+  const scrollToCategory = (cat: Category) => {
+    setActiveCategory(cat);
+    const element = sectionRefs.current[cat];
+    if (element) {
+      const y = element.getBoundingClientRect().top + window.scrollY - 90;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
+
+  const isSearching = searchQuery.trim().length > 0;
+  const searchLower = searchQuery.toLowerCase();
 
   return (
     <div className="menu-container">
-      <div className="category-filter">
-        {CATEGORIES.map((cat) => (
-          <button
-            key={cat}
-            className={`filter-btn ${activeCategory === cat ? 'active' : ''}`}
-            onClick={() => setActiveCategory(cat)}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
-      
       <div className="search-bar-container">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="search-icon">
           <circle cx="11" cy="11" r="8"></circle>
@@ -48,20 +64,65 @@ export const Menu: React.FC<MenuProps> = ({ onAddToCart }) => {
         />
       </div>
 
-      <div className="menu-grid">
-        <AnimatePresence mode="popLayout">
-          {filteredItems.map((item) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.2 }}
+      <div className="menu-layout">
+        <div className="category-sidebar">
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat}
+              className={`sidebar-btn ${activeCategory === cat ? 'active' : ''}`}
+              onClick={() => scrollToCategory(cat)}
             >
-              <MenuItemCard item={item} onAdd={onAddToCart} />
-            </motion.div>
+              <div className="btn-indicator" />
+              {cat}
+            </button>
           ))}
-        </AnimatePresence>
+        </div>
+
+        <div className="menu-content">
+          {isSearching ? (
+             <div className="menu-grid">
+                <AnimatePresence mode="popLayout">
+                  {MENU_ITEMS.filter(item => 
+                      item.name.toLowerCase().includes(searchLower) || 
+                      item.description.toLowerCase().includes(searchLower) ||
+                      item.category.toLowerCase().includes(searchLower)
+                  ).map((item) => (
+                    <motion.div
+                      key={item.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <MenuItemCard item={item} onAdd={onAddToCart} />
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+             </div>
+          ) : (
+            <div className="menu-sections">
+              {CATEGORIES.map((cat) => {
+                const items = MENU_ITEMS.filter(item => item.category === cat);
+                if (items.length === 0) return null;
+                return (
+                  <div 
+                    key={cat} 
+                    id={cat} 
+                    className="category-section"
+                    ref={(el) => { sectionRefs.current[cat] = el; }}
+                  >
+                    <h3 className="category-title">{cat}</h3>
+                    <div className="menu-grid">
+                        {items.map((item) => (
+                          <MenuItemCard key={item.id} item={item} onAdd={onAddToCart} />
+                        ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
       </div>
 
       <style>{`
@@ -73,7 +134,7 @@ export const Menu: React.FC<MenuProps> = ({ onAddToCart }) => {
 
         .search-bar-container {
           position: relative;
-          margin-bottom: var(--spacing-6);
+          margin-bottom: var(--spacing-8);
           max-width: 500px;
           margin-left: auto;
           margin-right: auto;
@@ -112,64 +173,154 @@ export const Menu: React.FC<MenuProps> = ({ onAddToCart }) => {
           color: rgba(255, 255, 255, 0.3);
         }
 
-        .category-filter {
+        .menu-layout {
           display: flex;
-          overflow-x: auto;
-          gap: var(--spacing-3);
-          padding-top: var(--spacing-4);
-          padding-bottom: var(--spacing-4);
-          margin-bottom: var(--spacing-6);
-          /* Hide scrollbar */
-          -ms-overflow-style: none;
-          scrollbar-width: none;
+          gap: var(--spacing-8);
+          align-items: flex-start;
+          position: relative;
+        }
+
+        .category-sidebar {
           position: sticky;
-          top: 0;
-          z-index: 20;
-          background: rgba(12, 10, 9, 0.9);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          margin-left: calc(var(--spacing-4) * -1);
-          margin-right: calc(var(--spacing-4) * -1);
-          padding-left: var(--spacing-4);
+          top: 100px; /* Offset for header */
+          width: 180px;
+          flex-shrink: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
           padding-right: var(--spacing-4);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .category-filter::-webkit-scrollbar {
-          display: none;
-        }
-
-        .filter-btn {
-          white-space: nowrap;
-          padding: 0.6rem 1.4rem;
-          border-radius: 9999px;
-          background: rgba(41, 37, 36, 0.8);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          color: rgba(255, 255, 255, 0.7);
-          font-weight: 600;
+        .sidebar-btn {
+          display: flex;
+          align-items: center;
+          text-align: left;
+          padding: 0.8rem 1rem;
+          border-radius: var(--radius-md);
+          background: transparent;
+          border: 1px solid transparent;
+          color: rgba(255, 255, 255, 0.6);
+          font-weight: 500;
           font-size: 1.05rem;
-          letter-spacing: 0.05em;
-          transition: all var(--transition-base);
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+          transition: all 0.3s ease;
+          cursor: pointer;
+          position: relative;
+          overflow: hidden;
         }
 
-        .filter-btn:hover {
+        .sidebar-btn:hover {
+          color: rgba(255, 255, 255, 0.9);
+          background: rgba(255, 255, 255, 0.03);
+          border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .sidebar-btn.active {
           color: white;
-          background: rgba(255, 255, 255, 0.15);
+          font-weight: 700;
+          background: rgba(193, 154, 107, 0.15);
+          border-color: rgba(193, 154, 107, 0.3);
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
-        .filter-btn.active {
+        .btn-indicator {
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          width: 4px;
           background: var(--color-bg-accent);
+          transform: scaleY(0);
+          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          transform-origin: center;
+          border-radius: 4px;
+        }
+
+        .sidebar-btn.active .btn-indicator {
+          transform: scaleY(1);
+        }
+
+        .menu-content {
+          flex: 1;
+          min-width: 0;
+        }
+
+        .category-section {
+          margin-bottom: var(--spacing-12);
+          scroll-margin-top: 100px;
+        }
+
+        .category-title {
+          font-family: 'Playfair Display', 'Noto Serif TC', serif;
+          font-size: 1.8rem;
+          font-weight: 700;
+          margin-bottom: var(--spacing-6);
           color: white;
-          border-color: var(--color-bg-accent-hover);
-          box-shadow: 0 4px 20px rgba(193, 154, 107, 0.3);
-          transform: translateY(-2px);
+          padding-bottom: var(--spacing-3);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          position: relative;
+        }
+
+        .category-title::after {
+          content: '';
+          position: absolute;
+          bottom: -1px;
+          left: 0;
+          width: 60px;
+          height: 2px;
+          background: var(--color-bg-accent);
         }
 
         .menu-grid {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
           gap: var(--spacing-6);
+        }
+
+        @media (max-width: 768px) {
+          .menu-layout {
+            flex-direction: column;
+            gap: var(--spacing-6);
+          }
+          .category-sidebar {
+            width: 100%;
+            flex-direction: row;
+            overflow-x: auto;
+            border-right: none;
+            padding-right: 0;
+            padding-bottom: var(--spacing-2);
+            /* Hide scrollbar */
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            top: 70px;
+            z-index: 20;
+            background: rgba(12, 10, 9, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            margin-left: calc(var(--spacing-4) * -1);
+            margin-right: calc(var(--spacing-4) * -1);
+            padding-left: var(--spacing-4);
+            width: calc(100% + var(--spacing-8));
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+          }
+          .category-sidebar::-webkit-scrollbar {
+            display: none;
+          }
+          .sidebar-btn {
+            white-space: nowrap;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 9999px;
+            padding: 0.6rem 1.4rem;
+            background: rgba(41, 37, 36, 0.8);
+          }
+          .btn-indicator {
+            display: none;
+          }
+          .sidebar-btn.active {
+            background: var(--color-bg-accent);
+            border-color: var(--color-bg-accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(193, 154, 107, 0.3);
+          }
         }
       `}</style>
     </div>
