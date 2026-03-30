@@ -322,49 +322,50 @@ Error generating stack: `+e.message+`
         }
 
         @media (max-width: 768px) {
+          .menu-container {
+             padding-left: var(--spacing-3);
+             padding-right: var(--spacing-3);
+          }
           .menu-layout {
-            flex-direction: column;
-            gap: var(--spacing-6);
+            gap: var(--spacing-3);
           }
           .category-sidebar {
-            width: 100%;
-            flex-direction: row;
-            overflow-x: auto;
-            border-right: none;
+            width: 85px;
+            top: 80px;
             padding-right: 0;
-            padding-bottom: var(--spacing-2);
-            /* Hide scrollbar */
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
             -ms-overflow-style: none;
             scrollbar-width: none;
-            top: 70px;
-            z-index: 20;
-            background: rgba(12, 10, 9, 0.95);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            margin-left: calc(var(--spacing-4) * -1);
-            margin-right: calc(var(--spacing-4) * -1);
-            padding-left: var(--spacing-4);
-            width: calc(100% + var(--spacing-8));
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
           }
           .category-sidebar::-webkit-scrollbar {
             display: none;
           }
           .sidebar-btn {
-            white-space: nowrap;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 9999px;
-            padding: 0.6rem 1.4rem;
-            background: rgba(41, 37, 36, 0.8);
+            padding: 0.75rem 0.25rem;
+            font-size: 0.9rem;
+            text-align: center;
+            justify-content: center;
+            border-radius: var(--radius-md) 0 0 var(--radius-md);
+            white-space: normal;
+            line-height: 1.2;
+            min-height: 60px;
           }
           .btn-indicator {
-            display: none;
+            width: 3px;
           }
           .sidebar-btn.active {
-            background: var(--color-bg-accent);
-            border-color: var(--color-bg-accent-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(193, 154, 107, 0.3);
+            border-radius: var(--radius-md) 0 0 var(--radius-md);
+          }
+          .category-title {
+            font-size: 1.4rem;
+          }
+          .category-section {
+            margin-bottom: var(--spacing-8);
+          }
+          .menu-grid {
+            grid-template-columns: 1fr;
+            gap: var(--spacing-4);
           }
         }
       `})]})},Wu=({isOpen:e,onClose:t,items:n,onUpdateQuantity:r,onEditItem:i,onCheckout:a})=>{let o=n.reduce((e,t)=>e+t.unitPrice*t.quantity,0);return e?(0,D.jsxs)(D.Fragment,{children:[(0,D.jsx)(`div`,{className:`cart-backdrop animate-fade-in`,onClick:t}),(0,D.jsxs)(`div`,{className:`cart-panel`,children:[(0,D.jsxs)(`div`,{className:`cart-header`,children:[(0,D.jsxs)(`h2`,{children:[(0,D.jsx)(T,{size:24,style:{display:`inline`,marginRight:`8px`}}),` 您的購物車`]}),(0,D.jsx)(`button`,{className:`close-btn`,onClick:t,children:(0,D.jsx)(E,{size:24})})]}),(0,D.jsx)(`div`,{className:`cart-items`,children:n.length===0?(0,D.jsxs)(`div`,{className:`empty-state`,children:[(0,D.jsx)(T,{size:48,className:`empty-icon`}),(0,D.jsx)(`p`,{children:`購物車是空的`})]}):n.map(e=>(0,D.jsxs)(`div`,{className:`cart-item`,children:[(0,D.jsxs)(`div`,{className:`item-info`,children:[(0,D.jsxs)(`div`,{className:`item-title-row`,children:[(0,D.jsx)(`h4`,{children:e.name}),(0,D.jsxs)(`button`,{className:`edit-btn`,onClick:()=>i(e),"aria-label":`編輯`,children:[(0,D.jsx)(le,{size:14}),` 編輯`]})]}),e.modifiers&&Object.entries(e.modifiers).map(([e,t])=>(0,D.jsxs)(`div`,{className:`item-mod`,children:[e,`: `,Array.isArray(t)?t.join(`, `):t]},e)),(0,D.jsxs)(`span`,{className:`item-price`,children:[`$`,e.unitPrice]})]}),(0,D.jsxs)(`div`,{className:`quantity-controls`,children:[(0,D.jsx)(`button`,{onClick:()=>r(e.cartItemId,-1),children:(0,D.jsx)(ce,{size:16})}),(0,D.jsx)(`span`,{children:e.quantity}),(0,D.jsx)(`button`,{onClick:()=>r(e.cartItemId,1),children:(0,D.jsx)(ue,{size:16})})]})]},e.cartItemId))}),(0,D.jsxs)(`div`,{className:`cart-footer`,children:[(0,D.jsxs)(`div`,{className:`total-row`,children:[(0,D.jsx)(`span`,{children:`總計`}),(0,D.jsxs)(`span`,{className:`total-price`,children:[`$`,o]})]}),(0,D.jsx)(`button`,{className:`checkout-btn`,disabled:n.length===0,onClick:a,children:`確認訂單`})]}),(0,D.jsx)(`style`,{children:`
