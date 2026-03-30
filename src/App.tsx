@@ -18,10 +18,10 @@ function App() {
   const [showHero, setShowHero] = useState(true);
 
   useEffect(() => {
-    // Hide hero and promo after 8 seconds
+    // Hide hero and promo after 5 seconds
     const timer = setTimeout(() => {
       setShowHero(false);
-    }, 8000);
+    }, 5000);
     return () => clearTimeout(timer);
   }, []);
 

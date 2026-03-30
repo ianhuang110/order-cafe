@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { CATEGORIES, type Category, MENU_ITEMS, type MenuItem } from '../data/menu';
 import { MenuItemCard } from './MenuItemCard';
 import { motion, AnimatePresence } from 'framer-motion';
+import { X } from 'lucide-react';
 
 interface MenuProps {
   onAddToCart: (item: MenuItem) => void;
@@ -63,6 +64,11 @@ export const Menu: React.FC<MenuProps> = ({ onAddToCart }) => {
             onChange={(e) => setSearchQuery(e.target.value)}
             className="search-input"
           />
+          {searchQuery && (
+            <button className="search-clear-btn" onClick={() => setSearchQuery('')} aria-label="清除搜尋">
+              <X size={18} />
+            </button>
+          )}
         </div>
       </div>
 
@@ -166,7 +172,7 @@ export const Menu: React.FC<MenuProps> = ({ onAddToCart }) => {
 
         .search-input {
           width: 100%;
-          padding: 0.875rem 1rem 0.875rem 3rem;
+          padding: 0.875rem 3rem 0.875rem 3rem;
           border-radius: 9999px;
           border: 1px solid rgba(255, 255, 255, 0.1);
           background: rgba(255, 255, 255, 0.05);
@@ -176,6 +182,28 @@ export const Menu: React.FC<MenuProps> = ({ onAddToCart }) => {
           transition: all 0.3s ease;
           backdrop-filter: blur(8px);
           -webkit-backdrop-filter: blur(8px);
+        }
+
+        .search-clear-btn {
+          position: absolute;
+          right: 1rem;
+          top: 50%;
+          transform: translateY(-50%);
+          color: var(--color-text-secondary);
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 4px;
+          border-radius: 50%;
+          transition: all 0.2s ease;
+        }
+
+        .search-clear-btn:hover {
+          color: var(--color-text-primary);
+          background: rgba(255, 255, 255, 0.1);
         }
 
         .search-input:focus {
