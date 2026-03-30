@@ -277,49 +277,50 @@ export const Menu: React.FC<MenuProps> = ({ onAddToCart }) => {
         }
 
         @media (max-width: 768px) {
+          .menu-container {
+             padding-left: var(--spacing-3);
+             padding-right: var(--spacing-3);
+          }
           .menu-layout {
-            flex-direction: column;
-            gap: var(--spacing-6);
+            gap: var(--spacing-3);
           }
           .category-sidebar {
-            width: 100%;
-            flex-direction: row;
-            overflow-x: auto;
-            border-right: none;
+            width: 85px;
+            top: 80px;
             padding-right: 0;
-            padding-bottom: var(--spacing-2);
-            /* Hide scrollbar */
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
             -ms-overflow-style: none;
             scrollbar-width: none;
-            top: 70px;
-            z-index: 20;
-            background: rgba(12, 10, 9, 0.95);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            margin-left: calc(var(--spacing-4) * -1);
-            margin-right: calc(var(--spacing-4) * -1);
-            padding-left: var(--spacing-4);
-            width: calc(100% + var(--spacing-8));
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
           }
           .category-sidebar::-webkit-scrollbar {
             display: none;
           }
           .sidebar-btn {
-            white-space: nowrap;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 9999px;
-            padding: 0.6rem 1.4rem;
-            background: rgba(41, 37, 36, 0.8);
+            padding: 0.75rem 0.25rem;
+            font-size: 0.9rem;
+            text-align: center;
+            justify-content: center;
+            border-radius: var(--radius-md) 0 0 var(--radius-md);
+            white-space: normal;
+            line-height: 1.2;
+            min-height: 60px;
           }
           .btn-indicator {
-            display: none;
+            width: 3px;
           }
           .sidebar-btn.active {
-            background: var(--color-bg-accent);
-            border-color: var(--color-bg-accent-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(193, 154, 107, 0.3);
+            border-radius: var(--radius-md) 0 0 var(--radius-md);
+          }
+          .category-title {
+            font-size: 1.4rem;
+          }
+          .category-section {
+            margin-bottom: var(--spacing-8);
+          }
+          .menu-grid {
+            grid-template-columns: 1fr;
+            gap: var(--spacing-4);
           }
         }
       `}</style>
