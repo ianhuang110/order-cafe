@@ -350,6 +350,7 @@ Error generating stack: `+e.message+`
             white-space: normal;
             line-height: 1.2;
             min-height: 60px;
+            flex-shrink: 0;
           }
           .btn-indicator {
             width: 3px;
