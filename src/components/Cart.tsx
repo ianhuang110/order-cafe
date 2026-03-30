@@ -5,7 +5,7 @@ import type { MenuItem } from '../data/menu';
 export interface CartItem extends MenuItem {
   cartItemId: string;
   quantity: number;
-  modifiers?: Record<string, string>;
+  modifiers?: Record<string, string | string[]>;
   unitPrice: number;
 }
 
@@ -51,7 +51,7 @@ export const Cart: React.FC<CartProps> = ({
                 <div className="item-info">
                   <h4>{item.name}</h4>
                   {item.modifiers && Object.entries(item.modifiers).map(([k, v]) => (
-                    <div key={k} className="item-mod">{k}: {v}</div>
+                    <div key={k} className="item-mod">{k}: {Array.isArray(v) ? v.join(', ') : v}</div>
                   ))}
                   <span className="item-price">${item.unitPrice}</span>
                 </div>

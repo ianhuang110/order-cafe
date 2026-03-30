@@ -74,7 +74,7 @@ export const OrderConfirmModal: React.FC<OrderConfirmModalProps> = ({
                   <div className="confirm-item-info">
                     <span className="confirm-item-name">{item.name} × {item.quantity}</span>
                     {item.modifiers && Object.entries(item.modifiers).map(([k, v]) => (
-                      <div key={k} className="confirm-item-mod">{k}: {v}</div>
+                      <div key={k} className="confirm-item-mod">{k}: {Array.isArray(v) ? v.join(', ') : v}</div>
                     ))}
                   </div>
                   <span className="confirm-item-price">${item.unitPrice * item.quantity}</span>

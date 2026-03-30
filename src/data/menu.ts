@@ -9,6 +9,7 @@ export interface ModifierGroup {
   name: string;
   options: ModifierOption[];
   required: boolean;
+  multiSelect?: boolean;
 }
 
 export interface MenuItem {
@@ -47,6 +48,7 @@ const COFFEE_MODIFIERS: ModifierGroup[] = [
   {
     name: '加料加價',
     required: false,
+    multiSelect: true,
     options: [
       { name: '加一份濃縮', priceDelta: 20 },
       { name: '升級燕麥奶', priceDelta: 30 }

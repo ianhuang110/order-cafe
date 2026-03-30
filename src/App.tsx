@@ -31,8 +31,14 @@ function App() {
       let unitPrice = item.price;
       if (item.modifierGroups) {
         item.modifierGroups.forEach(g => {
-          if (modifiers[g.name]) {
-            const opt = g.options.find(o => o.name === modifiers[g.name]);
+          const selection = modifiers[g.name];
+          if (Array.isArray(selection)) {
+            selection.forEach(selName => {
+              const opt = g.options.find(o => o.name === selName);
+              if (opt) unitPrice += opt.priceDelta;
+            });
+          } else if (selection) {
+            const opt = g.options.find(o => o.name === selection);
             if (opt) unitPrice += opt.priceDelta;
           }
         });

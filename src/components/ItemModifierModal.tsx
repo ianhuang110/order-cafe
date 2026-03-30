@@ -3,7 +3,7 @@ import { X } from 'lucide-react';
 import type { MenuItem } from '../data/menu';
 
 export interface ModifierSelection {
-  [groupName: string]: string;
+  [groupName: string]: string | string[];
 }
 
 interface ItemModifierModalProps {
@@ -21,7 +21,9 @@ export const ItemModifierModal: React.FC<ItemModifierModalProps> = ({ item, onCl
     if (item && item.modifierGroups) {
       const initial: ModifierSelection = {};
       item.modifierGroups.forEach(g => {
-        if (g.required && g.options.length > 0) {
+        if (g.multiSelect) {
+          initial[g.name] = [];
+        } else if (g.required && g.options.length > 0) {
           initial[g.name] = g.options[0].name;
         }
       });
@@ -35,17 +37,33 @@ export const ItemModifierModal: React.FC<ItemModifierModalProps> = ({ item, onCl
 
   if (!item) return null;
 
-  const handleSelect = (groupName: string, optionName: string) => {
-    setSelections(prev => ({ ...prev, [groupName]: optionName }));
+  const handleSelect = (groupName: string, optionName: string, isMulti: boolean) => {
+    setSelections(prev => {
+      if (isMulti) {
+        const currentArr = (prev[groupName] as string[]) || [];
+        if (currentArr.includes(optionName)) {
+          return { ...prev, [groupName]: currentArr.filter(n => n !== optionName) };
+        } else {
+          return { ...prev, [groupName]: [...currentArr, optionName] };
+        }
+      } else {
+        return { ...prev, [groupName]: optionName };
+      }
+    });
   };
 
   const calculateTotalPrice = () => {
     let total = item.price;
     if (item.modifierGroups) {
       item.modifierGroups.forEach(g => {
-        const selectedOptionName = selections[g.name];
-        if (selectedOptionName) {
-          const opt = g.options.find(o => o.name === selectedOptionName);
+        const selection = selections[g.name];
+        if (Array.isArray(selection)) {
+          selection.forEach(selName => {
+            const opt = g.options.find(o => o.name === selName);
+            if (opt) total += opt.priceDelta;
+          });
+        } else if (selection) {
+          const opt = g.options.find(o => o.name === selection);
           if (opt) total += opt.priceDelta;
         }
       });
@@ -55,7 +73,12 @@ export const ItemModifierModal: React.FC<ItemModifierModalProps> = ({ item, onCl
 
   const isFormValid = () => {
     if (!item.modifierGroups) return true;
-    return item.modifierGroups.every(g => !g.required || selections[g.name]);
+    return item.modifierGroups.every(g => {
+      if (!g.required) return true;
+      const selection = selections[g.name];
+      if (g.multiSelect) return Array.isArray(selection) && selection.length > 0;
+      return !!selection;
+    });
   };
 
   return (
@@ -76,18 +99,24 @@ export const ItemModifierModal: React.FC<ItemModifierModalProps> = ({ item, onCl
         <div className="mod-body">
           {item.modifierGroups?.map(group => (
             <div key={group.name} className="mod-group">
-              <h3>{group.name} {group.required && <span className="req">*必選</span>}</h3>
+              <h3>{group.name} {group.required && <span className="req">*必選</span>} {group.multiSelect && <span className="req" style={{color: '#9ca3af', marginLeft: '4px'}}>(可複選)</span>}</h3>
               <div className="mod-options">
-                {group.options.map(opt => (
-                  <button
-                    key={opt.name}
-                    className={`mod-option-btn ${selections[group.name] === opt.name ? 'active' : ''}`}
-                    onClick={() => handleSelect(group.name, opt.name)}
-                  >
-                    {opt.name}
-                    {opt.priceDelta > 0 && <span> (+${opt.priceDelta})</span>}
-                  </button>
-                ))}
+                {group.options.map(opt => {
+                  const isSelected = group.multiSelect 
+                    ? ((selections[group.name] as string[]) || []).includes(opt.name)
+                    : selections[group.name] === opt.name;
+                  
+                  return (
+                    <button
+                      key={opt.name}
+                      className={`mod-option-btn ${isSelected ? 'active' : ''}`}
+                      onClick={() => handleSelect(group.name, opt.name, !!group.multiSelect)}
+                    >
+                      {opt.name}
+                      {opt.priceDelta > 0 && <span> (+${opt.priceDelta})</span>}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           ))}
