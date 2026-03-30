@@ -5,12 +5,18 @@ import type { MenuItem } from '../data/menu';
 interface MenuItemCardProps {
   item: MenuItem;
   onAdd: (item: MenuItem) => void;
+  quantityInCart?: number;
 }
 
-export const MenuItemCard: React.FC<MenuItemCardProps> = ({ item, onAdd }) => {
+export const MenuItemCard: React.FC<MenuItemCardProps> = ({ item, onAdd, quantityInCart = 0 }) => {
   return (
-    <div className="glass-panel menu-card animate-fade-in">
+    <div className={`glass-panel menu-card animate-fade-in ${quantityInCart > 0 ? 'has-ordered' : ''}`}>
       <div className="image-container">
+        {quantityInCart > 0 && (
+          <div className="ordered-badge">
+            已加入 {quantityInCart}
+          </div>
+        )}
         <img src={item.imageUrl} alt={item.name} loading="lazy" />
       </div>
       <div className="content">
@@ -40,10 +46,44 @@ export const MenuItemCard: React.FC<MenuItemCardProps> = ({ item, onAdd }) => {
           border-color: rgba(255, 255, 255, 0.2);
         }
 
+        .menu-card.has-ordered {
+          border-color: rgba(193, 154, 107, 0.9);
+          box-shadow: 
+            0 0 0 1px rgba(193, 154, 107, 0.9),
+            0 12px 25px rgba(193, 154, 107, 0.35), 
+            inset 0 0 15px rgba(193, 154, 107, 0.15);
+          transform: translateY(-4px);
+        }
+
+        .menu-card.has-ordered:hover {
+          transform: translateY(-8px);
+          box-shadow: 
+            0 0 0 1px rgba(223, 189, 142, 1),
+            0 15px 35px rgba(193, 154, 107, 0.45), 
+            inset 0 0 20px rgba(193, 154, 107, 0.2);
+          border-color: rgba(223, 189, 142, 1);
+        }
+
         .image-container {
+          position: relative;
           width: 100%;
           height: 200px;
           overflow: hidden;
+        }
+
+        .ordered-badge {
+          position: absolute;
+          top: 14px;
+          right: 14px;
+          background: linear-gradient(135deg, #dfbd8e, #c19a6b);
+          color: #0c0a09;
+          padding: 6px 16px;
+          border-radius: 9999px;
+          font-weight: 800;
+          font-size: 0.95rem;
+          z-index: 10;
+          box-shadow: 0 6px 20px rgba(193, 154, 107, 0.6);
+          letter-spacing: 0.05em;
         }
 
         .image-container img {

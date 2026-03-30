@@ -139,7 +139,7 @@ function App() {
       </AnimatePresence>
       
       <main>
-        <Menu onAddToCart={handleAddToCartClick} />
+        <Menu onAddToCart={handleAddToCartClick} cartItems={cartItems} />
       </main>
 
       <Cart 

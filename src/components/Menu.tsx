@@ -3,12 +3,14 @@ import { CATEGORIES, type Category, MENU_ITEMS, type MenuItem } from '../data/me
 import { MenuItemCard } from './MenuItemCard';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
+import type { CartItem } from './Cart';
 
 interface MenuProps {
   onAddToCart: (item: MenuItem) => void;
+  cartItems: CartItem[];
 }
 
-export const Menu: React.FC<MenuProps> = ({ onAddToCart }) => {
+export const Menu: React.FC<MenuProps> = ({ onAddToCart, cartItems }) => {
   const [activeCategory, setActiveCategory] = useState<Category>(CATEGORIES[0]);
   const [searchQuery, setSearchQuery] = useState('');
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
@@ -48,6 +50,14 @@ export const Menu: React.FC<MenuProps> = ({ onAddToCart }) => {
 
   const isSearching = searchQuery.trim().length > 0;
   const searchLower = searchQuery.toLowerCase();
+  
+  const filteredItems = isSearching 
+    ? MENU_ITEMS.filter(item => 
+        item.name.toLowerCase().includes(searchLower) || 
+        item.description.toLowerCase().includes(searchLower) ||
+        item.category.toLowerCase().includes(searchLower)
+      )
+    : [];
 
   return (
     <div className="menu-container">
@@ -74,39 +84,62 @@ export const Menu: React.FC<MenuProps> = ({ onAddToCart }) => {
 
       <div className="menu-layout">
         <div className="category-sidebar">
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              className={`sidebar-btn ${activeCategory === cat ? 'active' : ''}`}
-              onClick={() => scrollToCategory(cat)}
-            >
-              <div className="btn-indicator" />
-              {cat}
-            </button>
-          ))}
+          {CATEGORIES.map((cat) => {
+            const catCount = cartItems
+              .filter(ci => ci.category === cat)
+              .reduce((sum, ci) => sum + ci.quantity, 0);
+              
+            return (
+              <button
+                key={cat}
+                className={`sidebar-btn ${activeCategory === cat ? 'active' : ''}`}
+                onClick={() => scrollToCategory(cat)}
+              >
+                <div className="btn-indicator" />
+                <span className="btn-label">{cat}</span>
+                {catCount > 0 && (
+                  <span className="sidebar-badge">{catCount}</span>
+                )}
+              </button>
+            );
+          })}
         </div>
 
         <div className="menu-content">
           {isSearching ? (
-             <div className="menu-grid">
-                <AnimatePresence mode="popLayout">
-                  {MENU_ITEMS.filter(item => 
-                      item.name.toLowerCase().includes(searchLower) || 
-                      item.description.toLowerCase().includes(searchLower) ||
-                      item.category.toLowerCase().includes(searchLower)
-                  ).map((item) => (
-                    <motion.div
-                      key={item.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <MenuItemCard item={item} onAdd={onAddToCart} />
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
-             </div>
+             filteredItems.length > 0 ? (
+               <div className="menu-grid">
+                  <AnimatePresence mode="popLayout">
+                    {filteredItems.map((item) => (
+                      <motion.div
+                        key={item.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <MenuItemCard 
+                          item={item} 
+                          onAdd={onAddToCart} 
+                          quantityInCart={cartItems.filter(ci => ci.id === item.id).reduce((acc, ci) => acc + ci.quantity, 0)} 
+                        />
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
+               </div>
+             ) : (
+               <motion.div 
+                 initial={{ opacity: 0, y: 10 }} 
+                 animate={{ opacity: 1, y: 0 }} 
+                 className="no-results-message glass-panel"
+               >
+                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="no-results-icon">
+                   <circle cx="11" cy="11" r="8"></circle>
+                   <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                 </svg>
+                 <p>抱歉，找不到符合「{searchQuery}」的餐點</p>
+               </motion.div>
+             )
           ) : (
             <div className="menu-sections">
               {CATEGORIES.map((cat) => {
@@ -122,7 +155,12 @@ export const Menu: React.FC<MenuProps> = ({ onAddToCart }) => {
                     <h3 className="category-title">{cat}</h3>
                     <div className="menu-grid">
                         {items.map((item) => (
-                          <MenuItemCard key={item.id} item={item} onAdd={onAddToCart} />
+                          <MenuItemCard 
+                            key={item.id} 
+                            item={item} 
+                            onAdd={onAddToCart} 
+                            quantityInCart={cartItems.filter(ci => ci.id === item.id).reduce((acc, ci) => acc + ci.quantity, 0)}
+                          />
                         ))}
                     </div>
                   </div>
@@ -237,6 +275,7 @@ export const Menu: React.FC<MenuProps> = ({ onAddToCart }) => {
         .sidebar-btn {
           display: flex;
           align-items: center;
+          justify-content: space-between;
           text-align: left;
           padding: 0.8rem 1rem;
           border-radius: var(--radius-md);
@@ -249,6 +288,7 @@ export const Menu: React.FC<MenuProps> = ({ onAddToCart }) => {
           cursor: pointer;
           position: relative;
           overflow: hidden;
+          gap: 8px;
         }
 
         .sidebar-btn:hover {
@@ -282,9 +322,53 @@ export const Menu: React.FC<MenuProps> = ({ onAddToCart }) => {
           transform: scaleY(1);
         }
 
+        .sidebar-badge {
+          background: rgba(193, 154, 107, 0.9);
+          color: white;
+          font-size: 0.75rem;
+          font-weight: 800;
+          padding: 3px 8px;
+          border-radius: 9999px;
+          min-width: 24px;
+          text-align: center;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+          transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .sidebar-btn.active .sidebar-badge {
+          background: linear-gradient(135deg, #dfbd8e, #c19a6b);
+          color: #0c0a09;
+        }
+
         .menu-content {
           flex: 1;
           min-width: 0;
+        }
+
+        .no-results-message {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 4rem 2rem;
+          text-align: center;
+          color: rgba(255, 255, 255, 0.6);
+          border: 1px dashed rgba(255, 255, 255, 0.2);
+          border-radius: var(--radius-lg);
+          margin-top: var(--spacing-4);
+        }
+
+        .no-results-icon {
+          color: rgba(255, 255, 255, 0.2);
+          margin-bottom: var(--spacing-4);
+        }
+
+        .no-results-message p {
+          font-size: 1.1rem;
+          margin: 0;
         }
 
         .category-section {
@@ -344,11 +428,22 @@ export const Menu: React.FC<MenuProps> = ({ onAddToCart }) => {
             font-size: 0.9rem;
             text-align: center;
             justify-content: center;
+            flex-direction: column;
             border-radius: var(--radius-md) 0 0 var(--radius-md);
             white-space: normal;
             line-height: 1.2;
             min-height: 60px;
             flex-shrink: 0;
+            gap: 4px;
+          }
+          .sidebar-badge {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            padding: 2px 6px;
+            font-size: 0.65rem;
+            min-width: 18px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.5);
           }
           .btn-indicator {
             width: 3px;
