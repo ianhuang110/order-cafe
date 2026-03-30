@@ -62,7 +62,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: '任選經典拿鐵或伯爵鮮奶茶，搭配招牌法式馬卡龍。',
     price: 220,
     category: '組合套餐',
-    imageUrl: '/images/combo_tea.png',
+    imageUrl: './images/combo_tea.png',
     modifierGroups: [
       {
         name: '選擇飲品',
@@ -81,7 +81,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: '經典美式咖啡搭配現烤奶油可頌，一日的完美開始。',
     price: 130,
     category: '組合套餐',
-    imageUrl: '/images/combo_morning.png',
+    imageUrl: './images/combo_morning.png',
     modifierGroups: COFFEE_MODIFIERS
   },
 
@@ -116,7 +116,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: '等比例濃縮咖啡、熱牛奶與綿密奶泡。',
     price: 130,
     category: '咖啡',
-    imageUrl: '/images/cappuccino.png',
+    imageUrl: './images/cappuccino.png',
     modifierGroups: COFFEE_MODIFIERS
   },
   {
@@ -145,7 +145,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: '京都頂級抹茶粉調和香醇小農鮮奶。',
     price: 150,
     category: '茶飲',
-    imageUrl: '/images/matcha_latte.png',
+    imageUrl: './images/matcha_latte.png',
     modifierGroups: COFFEE_MODIFIERS
   },
   {
@@ -154,7 +154,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: '帶有佛手柑香氣的斯里蘭卡紅茶與鮮奶完美結合。',
     price: 130,
     category: '茶飲',
-    imageUrl: '/images/earl_grey.png',
+    imageUrl: './images/earl_grey.png',
     modifierGroups: COFFEE_MODIFIERS
   },
   {
@@ -163,7 +163,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: '清香韓國柚子醬搭配氣泡水，清爽解膩。',
     price: 120,
     category: '茶飲',
-    imageUrl: '/images/yuzu_sparkling.png'
+    imageUrl: './images/yuzu_sparkling.png'
   },
 
   // 甜點
@@ -233,7 +233,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: '微酸有嚼勁的熱烤酸種麵包，搭配頂級奶油。',
     price: 90,
     category: '麵包',
-    imageUrl: '/images/sourdough.png'
+    imageUrl: './images/sourdough.png'
   },
 
   // 輕食
@@ -251,7 +251,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: '酥脆派皮盛滿培根、洋蔥與滑順蛋液烘烤而成。',
     price: 160,
     category: '輕食',
-    imageUrl: '/images/quiche_lorraine.png'
+    imageUrl: './images/quiche_lorraine.png'
   },
 
   // 冰淇淋
@@ -261,7 +261,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: '使用真實香草籽製成的經典濃郁冰淇淋。',
     price: 100,
     category: '冰淇淋',
-    imageUrl: '/images/vanilla.png'
+    imageUrl: './images/vanilla.png'
   },
   {
     id: 'i2',
@@ -269,7 +269,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: '頂級微苦帶有大地氣息的抹茶冰淇淋。',
     price: 120,
     category: '冰淇淋',
-    imageUrl: '/images/matcha.png'
+    imageUrl: './images/matcha.png'
   },
   {
     id: 'i3',
@@ -277,7 +277,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: '70%黑巧克力搭配濕潤的布朗尼塊。',
     price: 110,
     category: '冰淇淋',
-    imageUrl: '/images/chocolate.png'
+    imageUrl: './images/chocolate.png'
   },
 
   // 周邊商品
@@ -287,7 +287,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: '中深焙，散發太妃糖、堅果與黑巧克力的醇厚香氣。',
     price: 450,
     category: '周邊商品',
-    imageUrl: '/images/merch_beans.png',
+    imageUrl: './images/merch_beans.png',
     modifierGroups: [
       {
         name: '是否代客磨豆',
@@ -306,7 +306,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: '304不鏽鋼材質，保溫保冷長達12小時，手感極佳。',
     price: 880,
     category: '周邊商品',
-    imageUrl: '/images/merch_tumbler.png'
+    imageUrl: './images/merch_tumbler.png'
   },
   {
     id: 'm3',
@@ -314,6 +314,6 @@ export const MENU_ITEMS: MenuItem[] = [
     description: '採用衣索比亞水洗豆，帶有明亮的柑橘香與花香。',
     price: 350,
     category: '周邊商品',
-    imageUrl: '/images/merch_drip.png'
+    imageUrl: './images/merch_drip.png'
   }
 ];
