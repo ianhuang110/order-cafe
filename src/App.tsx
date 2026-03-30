@@ -4,6 +4,7 @@ import { Menu } from './components/Menu';
 import { Cart, type CartItem } from './components/Cart';
 import { ItemModifierModal, type ModifierSelection } from './components/ItemModifierModal';
 import { OrderTracker } from './components/OrderTracker';
+import { PromoBanner } from './components/PromoBanner';
 import type { MenuItem } from './data/menu';
 
 function App() {
@@ -23,11 +24,7 @@ function App() {
   }, []);
 
   const handleAddToCartClick = (item: MenuItem) => {
-    if (item.modifierGroups && item.modifierGroups.length > 0) {
-      setSelectedItemForMod(item);
-    } else {
-      handleConfirmAdd(item, {}, 1);
-    }
+    setSelectedItemForMod(item);
   };
 
   const handleConfirmAdd = (item: MenuItem, modifiers: ModifierSelection, quantity: number) => {
@@ -75,6 +72,8 @@ function App() {
         tableNumber={tableNumber}
         onOpenCart={() => setIsCartOpen(true)} 
       />
+      
+      <PromoBanner />
       
       <main>
         {isTrackingOrder ? (

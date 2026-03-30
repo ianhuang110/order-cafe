@@ -1,4 +1,4 @@
-export type Category = '咖啡' | '甜點' | '沙拉' | '麵包' | '冰淇淋';
+export type Category = '咖啡' | '茶飲' | '甜點' | '沙拉' | '麵包' | '輕食' | '冰淇淋';
 
 export interface ModifierOption {
   name: string;
@@ -21,7 +21,7 @@ export interface MenuItem {
   modifierGroups?: ModifierGroup[];
 }
 
-export const CATEGORIES: Category[] = ['咖啡', '甜點', '沙拉', '麵包', '冰淇淋'];
+export const CATEGORIES: Category[] = ['咖啡', '茶飲', '甜點', '沙拉', '麵包', '輕食', '冰淇淋'];
 
 // Common Coffee Modifiers
 const COFFEE_MODIFIERS: ModifierGroup[] = [
@@ -108,6 +108,34 @@ export const MENU_ITEMS: MenuItem[] = [
     ]
   },
   
+  // 茶飲
+  {
+    id: 't1',
+    name: '宇治抹茶拿鐵',
+    description: '京都頂級抹茶粉調和香醇小農鮮奶。',
+    price: 150,
+    category: '茶飲',
+    imageUrl: '/images/matcha_latte.png',
+    modifierGroups: COFFEE_MODIFIERS
+  },
+  {
+    id: 't2',
+    name: '伯爵鮮奶茶',
+    description: '帶有佛手柑香氣的斯里蘭卡紅茶與鮮奶完美結合。',
+    price: 130,
+    category: '茶飲',
+    imageUrl: '/images/earl_grey.png',
+    modifierGroups: COFFEE_MODIFIERS
+  },
+  {
+    id: 't3',
+    name: '夏日柚子氣泡飲',
+    description: '清香韓國柚子醬搭配氣泡水，清爽解膩。',
+    price: 120,
+    category: '茶飲',
+    imageUrl: '/images/yuzu_sparkling.png'
+  },
+
   // 甜點
   {
     id: 'd1',
@@ -176,6 +204,24 @@ export const MENU_ITEMS: MenuItem[] = [
     price: 90,
     category: '麵包',
     imageUrl: '/images/sourdough.png'
+  },
+
+  // 輕食
+  {
+    id: 'lm1',
+    name: '經典瑪格麗特帕尼尼',
+    description: '熱壓吐司包裹新鮮番茄、羅勒與濃郁莫札瑞拉起司。',
+    price: 180,
+    category: '輕食',
+    imageUrl: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&q=80&w=600'
+  },
+  {
+    id: 'lm2',
+    name: '法式洛林鹹派',
+    description: '酥脆派皮盛滿培根、洋蔥與滑順蛋液烘烤而成。',
+    price: 160,
+    category: '輕食',
+    imageUrl: '/images/quiche_lorraine.png'
   },
 
   // 冰淇淋
