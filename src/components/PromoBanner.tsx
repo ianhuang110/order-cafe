@@ -12,9 +12,10 @@ export const PromoBanner: React.FC = () => {
         .promo-banner {
           background: linear-gradient(90deg, rgba(59, 130, 246, 0.15) 0%, rgba(147, 51, 234, 0.15) 100%);
           border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-          padding: var(--spacing-3) var(--spacing-4);
+          padding: var(--spacing-3) 0;
+          overflow: hidden;
           display: flex;
-          justify-content: center;
+          align-items: center;
           backdrop-filter: blur(10px);
           -webkit-backdrop-filter: blur(10px);
           position: relative;
@@ -22,10 +23,16 @@ export const PromoBanner: React.FC = () => {
         }
 
         .banner-content {
-          display: flex;
+          display: inline-flex;
           align-items: center;
+          white-space: nowrap;
           gap: var(--spacing-3);
-          animation: fade-in 0.5s ease-out;
+          padding-left: 100%;
+          animation: marquee 15s linear infinite;
+        }
+        
+        .promo-banner:hover .banner-content {
+          animation-play-state: paused;
         }
 
         .badge {
@@ -36,6 +43,7 @@ export const PromoBanner: React.FC = () => {
           font-size: 0.75rem;
           font-weight: 700;
           letter-spacing: 0.05em;
+          flex-shrink: 0;
         }
 
         .promo-banner p {
@@ -43,19 +51,12 @@ export const PromoBanner: React.FC = () => {
           font-size: 0.95rem;
           margin: 0;
           font-weight: 500;
+          flex-shrink: 0;
         }
         
-        @keyframes fade-in {
-          0% { opacity: 0; transform: translateY(-5px); }
-          100% { opacity: 1; transform: translateY(0); }
-        }
-
-        @media (max-width: 640px) {
-          .banner-content {
-            flex-direction: column;
-            gap: var(--spacing-1);
-            text-align: center;
-          }
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-100%); }
         }
       `}</style>
     </div>

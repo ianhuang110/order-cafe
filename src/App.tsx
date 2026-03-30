@@ -91,10 +91,13 @@ function App() {
         ) : (
           <>
             <div className="hero-section text-center">
-              <h2 className="animate-fade-in text-gradient">歡迎來到 Order Cafe</h2>
-              <p className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
-                體驗最高品質的咖啡與精緻手作餐點。
-              </p>
+              <div className="hero-bg"></div>
+              <div className="hero-content">
+                <h2 className="animate-fade-in text-gradient">歡迎來到 Order Cafe</h2>
+                <p className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
+                  體驗最高品質的職人咖啡與精緻手作餐點。
+                </p>
+              </div>
             </div>
 
             <Menu onAddToCart={handleAddToCartClick} />
@@ -131,24 +134,72 @@ function App() {
         }
 
         .hero-section {
-          padding: var(--spacing-8) var(--spacing-4);
+          position: relative;
+          padding: 8rem var(--spacing-4) 7rem;
           text-align: center;
-          margin-bottom: var(--spacing-6);
+          margin-bottom: var(--spacing-8);
+          border-radius: var(--radius-xl);
+          overflow: hidden;
+          margin-top: 2rem;
+          margin-left: 2rem;
+          margin-right: 2rem;
+          box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .hero-bg {
+          position: absolute;
+          inset: 0;
+          background-image: url('https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80&w=1920');
+          background-size: cover;
+          background-position: center;
+          z-index: 0;
+          filter: brightness(0.4) contrast(1.1);
+        }
+        
+        .hero-bg::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to bottom, rgba(12, 10, 9, 0) 0%, rgba(12, 10, 9, 0.8) 100%);
+        }
+
+        .hero-content {
+          position: relative;
+          z-index: 1;
         }
 
         .text-gradient {
-          font-size: 2.5rem;
-          font-weight: 800;
-          margin-bottom: var(--spacing-2);
-          background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+          font-family: 'Playfair Display', 'Noto Serif TC', serif;
+          font-size: 3.5rem;
+          font-weight: 700;
+          margin-bottom: var(--spacing-3);
+          background: linear-gradient(135deg, #ffffff 0%, #d4af37 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
+          letter-spacing: 0.05em;
         }
 
         .hero-section p {
-          color: var(--color-text-secondary);
-          font-size: 1.125rem;
-          margin-bottom: var(--spacing-6);
+          color: rgba(255, 255, 255, 0.85);
+          font-size: 1.25rem;
+          font-weight: 300;
+          letter-spacing: 0.08em;
+          margin-bottom: 0;
+        }
+
+        @media (max-width: 768px) {
+          .hero-section {
+            padding: 5rem var(--spacing-4) 4rem;
+            margin-top: 1rem;
+            margin-left: 1rem;
+            margin-right: 1rem;
+          }
+          .text-gradient {
+            font-size: 2.2rem;
+          }
+          .hero-section p {
+            font-size: 1rem;
+          }
         }
       `}</style>
     </div>

@@ -13,13 +13,27 @@ export const Menu: React.FC<MenuProps> = ({ onAddToCart }) => {
 
   const filteredItems = MENU_ITEMS.filter((item) => {
     const matchesCategory = searchQuery ? true : item.category === activeCategory;
-    const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          item.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const searchLower = searchQuery.toLowerCase();
+    const matchesSearch = item.name.toLowerCase().includes(searchLower) || 
+                          item.description.toLowerCase().includes(searchLower) ||
+                          item.category.toLowerCase().includes(searchLower);
     return matchesCategory && matchesSearch;
   });
 
   return (
     <div className="menu-container">
+      <div className="category-filter">
+        {CATEGORIES.map((cat) => (
+          <button
+            key={cat}
+            className={`filter-btn ${activeCategory === cat ? 'active' : ''}`}
+            onClick={() => setActiveCategory(cat)}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+      
       <div className="search-bar-container">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="search-icon">
           <circle cx="11" cy="11" r="8"></circle>
@@ -32,17 +46,6 @@ export const Menu: React.FC<MenuProps> = ({ onAddToCart }) => {
           onChange={(e) => setSearchQuery(e.target.value)}
           className="search-input"
         />
-      </div>
-      <div className="category-filter">
-        {CATEGORIES.map((cat) => (
-          <button
-            key={cat}
-            className={`filter-btn ${activeCategory === cat ? 'active' : ''}`}
-            onClick={() => setActiveCategory(cat)}
-          >
-            {cat}
-          </button>
-        ))}
       </div>
 
       <div className="menu-grid">
@@ -113,11 +116,23 @@ export const Menu: React.FC<MenuProps> = ({ onAddToCart }) => {
           display: flex;
           overflow-x: auto;
           gap: var(--spacing-3);
+          padding-top: var(--spacing-4);
           padding-bottom: var(--spacing-4);
           margin-bottom: var(--spacing-6);
           /* Hide scrollbar */
           -ms-overflow-style: none;
           scrollbar-width: none;
+          position: sticky;
+          top: 0;
+          z-index: 20;
+          background: rgba(12, 10, 9, 0.9);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          margin-left: calc(var(--spacing-4) * -1);
+          margin-right: calc(var(--spacing-4) * -1);
+          padding-left: var(--spacing-4);
+          padding-right: var(--spacing-4);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .category-filter::-webkit-scrollbar {
@@ -126,26 +141,29 @@ export const Menu: React.FC<MenuProps> = ({ onAddToCart }) => {
 
         .filter-btn {
           white-space: nowrap;
-          padding: var(--spacing-2) var(--spacing-4);
+          padding: 0.6rem 1.4rem;
           border-radius: 9999px;
-          background: var(--color-bg-surface);
-          border: 1px solid rgba(255, 255, 255, 0.05);
-          color: var(--color-text-secondary);
-          font-weight: 500;
-          font-size: 0.9rem;
-          transition: all var(--transition-fast);
+          background: rgba(41, 37, 36, 0.8);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          color: rgba(255, 255, 255, 0.7);
+          font-weight: 600;
+          font-size: 1.05rem;
+          letter-spacing: 0.05em;
+          transition: all var(--transition-base);
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
         .filter-btn:hover {
-          color: var(--color-text-primary);
-          background: rgba(255, 255, 255, 0.1);
+          color: white;
+          background: rgba(255, 255, 255, 0.15);
         }
 
         .filter-btn.active {
           background: var(--color-bg-accent);
           color: white;
           border-color: var(--color-bg-accent-hover);
-          box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+          box-shadow: 0 4px 20px rgba(193, 154, 107, 0.3);
+          transform: translateY(-2px);
         }
 
         .menu-grid {
