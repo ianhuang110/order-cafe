@@ -5,7 +5,7 @@ import type { CartItem } from './Cart';
 interface OrderConfirmModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: (details: { name: string; phone: string; paymentMethod: string }) => void;
   items: CartItem[];
 }
 
@@ -15,9 +15,21 @@ export const OrderConfirmModal: React.FC<OrderConfirmModalProps> = ({
   onConfirm,
   items
 }) => {
+  const [name, setName] = React.useState('');
+  const [phone, setPhone] = React.useState('');
+  const [paymentMethod, setPaymentMethod] = React.useState('cash');
+
   if (!isOpen) return null;
 
   const total = items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
+
+  const handleConfirm = () => {
+    if (!name.trim() || !phone.trim()) {
+      alert('請填寫聯絡人姓名與電話');
+      return;
+    }
+    onConfirm({ name, phone, paymentMethod });
+  };
 
   return (
     <div className="confirm-backdrop animate-fade-in" onClick={onClose}>
@@ -42,12 +54,68 @@ export const OrderConfirmModal: React.FC<OrderConfirmModalProps> = ({
           ))}
         </div>
         
+        <div className="checkout-form">
+          <div className="form-group">
+            <label>聯絡人姓名</label>
+            <input 
+              type="text" 
+              value={name} 
+              onChange={e => setName(e.target.value)} 
+              placeholder="請輸入姓名"
+            />
+          </div>
+          <div className="form-group">
+            <label>聯絡電話</label>
+            <input 
+              type="tel" 
+              value={phone} 
+              onChange={e => setPhone(e.target.value)} 
+              placeholder="請輸入電話"
+            />
+          </div>
+          <div className="form-group">
+            <label>付款方式</label>
+            <div className="payment-options">
+              <label className={`pay-opt ${paymentMethod === 'cash' ? 'active' : ''}`}>
+                <input 
+                  type="radio" 
+                  name="payment" 
+                  value="cash" 
+                  checked={paymentMethod === 'cash'} 
+                  onChange={e => setPaymentMethod(e.target.value)} 
+                />
+                現場付款
+              </label>
+              <label className={`pay-opt ${paymentMethod === 'linepay' ? 'active' : ''}`}>
+                <input 
+                  type="radio" 
+                  name="payment" 
+                  value="linepay" 
+                  checked={paymentMethod === 'linepay'} 
+                  onChange={e => setPaymentMethod(e.target.value)} 
+                />
+                LINE Pay
+              </label>
+              <label className={`pay-opt ${paymentMethod === 'credit' ? 'active' : ''}`}>
+                <input 
+                  type="radio" 
+                  name="payment" 
+                  value="credit" 
+                  checked={paymentMethod === 'credit'} 
+                  onChange={e => setPaymentMethod(e.target.value)} 
+                />
+                信用卡
+              </label>
+            </div>
+          </div>
+        </div>
+
         <div className="confirm-footer">
           <div className="confirm-total">
             <span>總計金額</span>
             <span>${total}</span>
           </div>
-          <button className="confirm-btn" onClick={onConfirm}>
+          <button className="confirm-btn" onClick={handleConfirm}>
             確認結帳並送出訂單
           </button>
         </div>
@@ -185,6 +253,75 @@ export const OrderConfirmModal: React.FC<OrderConfirmModalProps> = ({
 
         .confirm-btn:active {
           transform: scale(0.98);
+        }
+
+        .checkout-form {
+          display: flex;
+          flex-direction: column;
+          gap: var(--spacing-4);
+          margin-bottom: var(--spacing-6);
+          text-align: left;
+        }
+
+        .form-group {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+        }
+
+        .form-group label {
+          font-size: 0.9rem;
+          color: var(--color-text-secondary);
+          padding-left: 2px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="tel"] {
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: var(--radius-md);
+          padding: 10px 14px;
+          color: white;
+          font-size: 1rem;
+          transition: all 0.2s;
+        }
+
+        .form-group input:focus {
+          border-color: var(--color-bg-accent);
+          outline: none;
+          background: rgba(255, 255, 255, 0.08);
+        }
+
+        .payment-options {
+          display: flex;
+          gap: 10px;
+        }
+
+        .pay-opt {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          padding: 10px;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: var(--radius-md);
+          cursor: pointer;
+          font-size: 0.9rem;
+          color: var(--color-text-secondary);
+          transition: all 0.2s;
+        }
+
+        .pay-opt input {
+          display: none;
+        }
+
+        .pay-opt.active {
+          background: rgba(212, 175, 55, 0.15); /* matching accent color */
+          border-color: var(--color-bg-accent);
+          color: white;
+          font-weight: 500;
         }
       `}</style>
     </div>

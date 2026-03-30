@@ -65,11 +65,42 @@ function App() {
     setIsOrderConfirmOpen(true);
   };
 
-  const handleConfirmTransaction = () => {
-    setCartItems([]);
-    setIsCartOpen(false);
-    setIsOrderConfirmOpen(false);
-    setIsTrackingOrder(true);
+  const handleConfirmTransaction = async (details: { name: string; phone: string; paymentMethod: string }) => {
+    if (details.paymentMethod === 'credit') {
+      try {
+        // 這是呼叫本地 Supabase Edge Function 的網址，上線後會換成 Supabase 提供的專案 URL
+        const res = await fetch('http://127.0.0.1:54321/functions/v1/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            items: cartItems,
+            details,
+            baseUrl: window.location.origin
+          }),
+        });
+
+        const data = await res.json();
+        
+        if (data.paymentUrl) {
+          // 導向到 Stripe 結帳頁面
+          window.location.href = data.paymentUrl;
+          return; // 離開，不執行底下的清理購物車動作
+        } else {
+          alert('無法生成付款連結: ' + data.error);
+        }
+      } catch (err) {
+        console.error('Checkout error:', err);
+        alert('結帳連線發生錯誤');
+      }
+    } else {
+      // 現場付款或其它流程
+      console.log('Sending order to server...', { details, cartItems, tableNumber });
+      
+      setCartItems([]);
+      setIsCartOpen(false);
+      setIsOrderConfirmOpen(false);
+      setIsTrackingOrder(true);
+    }
   };
 
   return (
