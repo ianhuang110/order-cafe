@@ -66,7 +66,6 @@ function App() {
     setCartItems([]);
     setIsCartOpen(false);
     setIsOrderConfirmOpen(false);
-    alert('訂單已送出！');
   };
 
   return (
