@@ -4,12 +4,14 @@ import { Menu } from './components/Menu';
 import { Cart, type CartItem } from './components/Cart';
 import { ItemModifierModal, type ModifierSelection } from './components/ItemModifierModal';
 import { OrderTracker } from './components/OrderTracker';
+import { OrderConfirmModal } from './components/OrderConfirmModal';
 import { PromoBanner } from './components/PromoBanner';
 import type { MenuItem } from './data/menu';
 
 function App() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isOrderConfirmOpen, setIsOrderConfirmOpen] = useState(false);
   const [tableNumber, setTableNumber] = useState<string | null>(null);
   const [selectedItemForMod, setSelectedItemForMod] = useState<MenuItem | null>(null);
   const [isTrackingOrder, setIsTrackingOrder] = useState(false);
@@ -59,9 +61,14 @@ function App() {
     }).filter(item => item.quantity > 0));
   };
 
-  const handleCheckout = () => {
+  const handleCheckoutClick = () => {
+    setIsOrderConfirmOpen(true);
+  };
+
+  const handleConfirmTransaction = () => {
     setCartItems([]);
     setIsCartOpen(false);
+    setIsOrderConfirmOpen(false);
     setIsTrackingOrder(true);
   };
 
@@ -100,7 +107,14 @@ function App() {
         onClose={() => setIsCartOpen(false)}
         items={cartItems}
         onUpdateQuantity={handleUpdateQuantity}
-        onCheckout={handleCheckout}
+        onCheckout={handleCheckoutClick}
+      />
+
+      <OrderConfirmModal
+        isOpen={isOrderConfirmOpen}
+        onClose={() => setIsOrderConfirmOpen(false)}
+        onConfirm={handleConfirmTransaction}
+        items={cartItems}
       />
 
       <ItemModifierModal

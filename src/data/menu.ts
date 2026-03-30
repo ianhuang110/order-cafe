@@ -1,4 +1,4 @@
-export type Category = '咖啡' | '茶飲' | '甜點' | '沙拉' | '麵包' | '輕食' | '冰淇淋';
+export type Category = '組合套餐' | '咖啡' | '茶飲' | '甜點' | '沙拉' | '麵包' | '輕食' | '冰淇淋' | '周邊商品';
 
 export interface ModifierOption {
   name: string;
@@ -21,7 +21,7 @@ export interface MenuItem {
   modifierGroups?: ModifierGroup[];
 }
 
-export const CATEGORIES: Category[] = ['咖啡', '茶飲', '甜點', '沙拉', '麵包', '輕食', '冰淇淋'];
+export const CATEGORIES: Category[] = ['組合套餐', '咖啡', '茶飲', '甜點', '沙拉', '麵包', '輕食', '冰淇淋', '周邊商品'];
 
 // Common Coffee Modifiers
 const COFFEE_MODIFIERS: ModifierGroup[] = [
@@ -55,6 +55,36 @@ const COFFEE_MODIFIERS: ModifierGroup[] = [
 ];
 
 export const MENU_ITEMS: MenuItem[] = [
+  // 組合套餐
+  {
+    id: 'cb1',
+    name: '精緻下午茶套餐',
+    description: '任選經典拿鐵或伯爵鮮奶茶，搭配招牌法式馬卡龍。',
+    price: 220,
+    category: '組合套餐',
+    imageUrl: '/images/combo_tea.png',
+    modifierGroups: [
+      {
+        name: '選擇飲品',
+        required: true,
+        options: [
+          { name: '經典拿鐵', priceDelta: 0 },
+          { name: '伯爵鮮奶茶', priceDelta: 0 }
+        ]
+      },
+      ...COFFEE_MODIFIERS
+    ]
+  },
+  {
+    id: 'cb2',
+    name: '早晨活力套餐',
+    description: '經典美式咖啡搭配現烤奶油可頌，一日的完美開始。',
+    price: 130,
+    category: '組合套餐',
+    imageUrl: '/images/combo_morning.png',
+    modifierGroups: COFFEE_MODIFIERS
+  },
+
   // 咖啡
   {
     id: 'c1',
@@ -248,5 +278,42 @@ export const MENU_ITEMS: MenuItem[] = [
     price: 110,
     category: '冰淇淋',
     imageUrl: '/images/chocolate.png'
+  },
+
+  // 周邊商品
+  {
+    id: 'm1',
+    name: '店長精選 綜合咖啡豆 (250g)',
+    description: '中深焙，散發太妃糖、堅果與黑巧克力的醇厚香氣。',
+    price: 450,
+    category: '周邊商品',
+    imageUrl: '/images/merch_beans.png',
+    modifierGroups: [
+      {
+        name: '是否代客磨豆',
+        required: true,
+        options: [
+          { name: '不需磨豆 (原豆)', priceDelta: 0 },
+          { name: '義式咖啡機 (極細)', priceDelta: 0 },
+          { name: '手沖濾紙 (中度)', priceDelta: 0 }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'm2',
+    name: '品牌特製霧黑保溫杯',
+    description: '304不鏽鋼材質，保溫保冷長達12小時，手感極佳。',
+    price: 880,
+    category: '周邊商品',
+    imageUrl: '/images/merch_tumbler.png'
+  },
+  {
+    id: 'm3',
+    name: '經典莊園濾掛包禮盒 (10入)',
+    description: '採用衣索比亞水洗豆，帶有明亮的柑橘香與花香。',
+    price: 350,
+    category: '周邊商品',
+    imageUrl: '/images/merch_drip.png'
   }
 ];
