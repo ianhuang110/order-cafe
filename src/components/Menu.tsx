@@ -246,8 +246,8 @@ export const Menu: React.FC<MenuProps> = ({ onAddToCart, cartItems }) => {
 
         .search-input:focus {
           background: rgba(255, 255, 255, 0.08);
-          border-color: rgba(59, 130, 246, 0.5);
-          box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+          border-color: rgba(193, 154, 107, 0.5);
+          box-shadow: 0 0 0 2px rgba(193, 154, 107, 0.2);
         }
 
         .search-input::placeholder {

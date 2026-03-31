@@ -42,8 +42,8 @@ export const MenuItemCard: React.FC<MenuItemCardProps> = ({ item, onAdd, quantit
 
         .menu-card:hover {
           transform: translateY(-4px);
-          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-          border-color: rgba(255, 255, 255, 0.2);
+          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+          border-color: rgba(193, 154, 107, 0.3);
         }
 
         .menu-card.has-ordered {
@@ -112,9 +112,11 @@ export const MenuItemCard: React.FC<MenuItemCardProps> = ({ item, onAdd, quantit
         }
 
         .header h3 {
-          font-size: 1.125rem;
-          font-weight: 600;
+          font-family: 'Playfair Display', 'Noto Serif TC', serif;
+          font-size: 1.2rem;
+          font-weight: 700;
           color: var(--color-text-primary);
+          letter-spacing: 0.03em;
         }
 
         .price {
@@ -138,9 +140,9 @@ export const MenuItemCard: React.FC<MenuItemCardProps> = ({ item, onAdd, quantit
           gap: var(--spacing-2);
           width: 100%;
           padding: var(--spacing-3) 0;
-          background: rgba(59, 130, 246, 0.1);
+          background: rgba(193, 154, 107, 0.1);
           color: var(--color-bg-accent);
-          border: 1px solid rgba(59, 130, 246, 0.3);
+          border: 1px solid rgba(193, 154, 107, 0.3);
           border-radius: var(--radius-md);
           font-weight: 600;
           transition: all var(--transition-fast);
@@ -148,7 +150,7 @@ export const MenuItemCard: React.FC<MenuItemCardProps> = ({ item, onAdd, quantit
 
         .add-btn:hover {
           background: var(--color-bg-accent);
-          color: white;
+          color: #0c0a09;
         }
       `}</style>
     </div>
