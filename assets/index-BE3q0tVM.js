@@ -96,8 +96,8 @@ Error generating stack: `+e.message+`
 
         .menu-card:hover {
           transform: translateY(-4px);
-          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-          border-color: rgba(255, 255, 255, 0.2);
+          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+          border-color: rgba(193, 154, 107, 0.3);
         }
 
         .menu-card.has-ordered {
@@ -166,9 +166,11 @@ Error generating stack: `+e.message+`
         }
 
         .header h3 {
-          font-size: 1.125rem;
-          font-weight: 600;
+          font-family: 'Playfair Display', 'Noto Serif TC', serif;
+          font-size: 1.2rem;
+          font-weight: 700;
           color: var(--color-text-primary);
+          letter-spacing: 0.03em;
         }
 
         .price {
@@ -192,9 +194,9 @@ Error generating stack: `+e.message+`
           gap: var(--spacing-2);
           width: 100%;
           padding: var(--spacing-3) 0;
-          background: rgba(59, 130, 246, 0.1);
+          background: rgba(193, 154, 107, 0.1);
           color: var(--color-bg-accent);
-          border: 1px solid rgba(59, 130, 246, 0.3);
+          border: 1px solid rgba(193, 154, 107, 0.3);
           border-radius: var(--radius-md);
           font-weight: 600;
           transition: all var(--transition-fast);
@@ -202,7 +204,7 @@ Error generating stack: `+e.message+`
 
         .add-btn:hover {
           background: var(--color-bg-accent);
-          color: white;
+          color: #0c0a09;
         }
       `})]}),Wu=({onAddToCart:e,cartItems:t})=>{let[n,r]=(0,b.useState)(Bu[0]),[i,a]=(0,b.useState)(``),o=(0,b.useRef)({});(0,b.useEffect)(()=>{let e=new IntersectionObserver(e=>{let t=e.filter(e=>e.isIntersecting);t.length>0&&r(t[0].target.id)},{rootMargin:`-100px 0px -60% 0px`,threshold:0});return Object.values(o.current).forEach(t=>{t&&e.observe(t)}),()=>e.disconnect()},[i]);let s=e=>{r(e);let t=o.current[e];if(t){let e=t.getBoundingClientRect().top+window.scrollY-90;window.scrollTo({top:e,behavior:`smooth`})}},c=i.trim().length>0,l=i.toLowerCase(),u=c?Hu.filter(e=>e.name.toLowerCase().includes(l)||e.description.toLowerCase().includes(l)||e.category.toLowerCase().includes(l)):[];return(0,U.jsxs)(`div`,{className:`menu-container`,children:[(0,U.jsx)(`div`,{className:`search-bar-wrapper`,children:(0,U.jsxs)(`div`,{className:`search-bar-container`,children:[(0,U.jsxs)(`svg`,{xmlns:`http://www.w3.org/2000/svg`,width:`20`,height:`20`,viewBox:`0 0 24 24`,fill:`none`,stroke:`currentColor`,strokeWidth:`2`,strokeLinecap:`round`,strokeLinejoin:`round`,className:`search-icon`,children:[(0,U.jsx)(`circle`,{cx:`11`,cy:`11`,r:`8`}),(0,U.jsx)(`line`,{x1:`21`,y1:`21`,x2:`16.65`,y2:`16.65`})]}),(0,U.jsx)(`input`,{type:`text`,placeholder:`搜尋餐點或描述...`,value:i,onChange:e=>a(e.target.value),className:`search-input`}),i&&(0,U.jsx)(`button`,{className:`search-clear-btn`,onClick:()=>a(``),"aria-label":`清除搜尋`,children:(0,U.jsx)(Ru,{size:18})})]})}),(0,U.jsxs)(`div`,{className:`menu-layout`,children:[(0,U.jsx)(`div`,{className:`category-sidebar`,children:Bu.map(e=>{let r=t.filter(t=>t.category===e).reduce((e,t)=>e+t.quantity,0);return(0,U.jsxs)(`button`,{className:`sidebar-btn ${n===e?`active`:``}`,onClick:()=>s(e),children:[(0,U.jsx)(`div`,{className:`btn-indicator`}),(0,U.jsx)(`span`,{className:`btn-label`,children:e}),r>0&&(0,U.jsx)(`span`,{className:`sidebar-badge`,children:r})]},e)})}),(0,U.jsx)(`div`,{className:`menu-content`,children:c?u.length>0?(0,U.jsx)(`div`,{className:`menu-grid`,children:(0,U.jsx)(Nc,{mode:`popLayout`,children:u.map(n=>(0,U.jsx)(Su.div,{initial:{opacity:0,y:20},animate:{opacity:1,y:0},exit:{opacity:0,scale:.9},transition:{duration:.2},children:(0,U.jsx)(Uu,{item:n,onAdd:e,quantityInCart:t.filter(e=>e.id===n.id).reduce((e,t)=>e+t.quantity,0)})},n.id))})}):(0,U.jsxs)(Su.div,{initial:{opacity:0,y:10},animate:{opacity:1,y:0},className:`no-results-message glass-panel`,children:[(0,U.jsxs)(`svg`,{xmlns:`http://www.w3.org/2000/svg`,width:`48`,height:`48`,viewBox:`0 0 24 24`,fill:`none`,stroke:`currentColor`,strokeWidth:`1`,strokeLinecap:`round`,strokeLinejoin:`round`,className:`no-results-icon`,children:[(0,U.jsx)(`circle`,{cx:`11`,cy:`11`,r:`8`}),(0,U.jsx)(`line`,{x1:`21`,y1:`21`,x2:`16.65`,y2:`16.65`})]}),(0,U.jsxs)(`p`,{children:[`抱歉，找不到符合「`,i,`」的餐點`]})]}):(0,U.jsx)(`div`,{className:`menu-sections`,children:Bu.map(n=>{let r=Hu.filter(e=>e.category===n);return r.length===0?null:(0,U.jsxs)(`div`,{id:n,className:`category-section`,ref:e=>{o.current[n]=e},children:[(0,U.jsx)(`h3`,{className:`category-title`,children:n}),(0,U.jsx)(`div`,{className:`menu-grid`,children:r.map(n=>(0,U.jsx)(Uu,{item:n,onAdd:e,quantityInCart:t.filter(e=>e.id===n.id).reduce((e,t)=>e+t.quantity,0)},n.id))})]},n)})})})]}),(0,U.jsx)(`style`,{children:`
         .menu-container {
@@ -279,8 +281,8 @@ Error generating stack: `+e.message+`
 
         .search-input:focus {
           background: rgba(255, 255, 255, 0.08);
-          border-color: rgba(59, 130, 246, 0.5);
-          box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+          border-color: rgba(193, 154, 107, 0.5);
+          box-shadow: 0 0 0 2px rgba(193, 154, 107, 0.2);
         }
 
         .search-input::placeholder {
