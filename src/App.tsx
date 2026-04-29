@@ -101,7 +101,9 @@ function App() {
     setIsOrderConfirmOpen(true);
   };
 
-  const handleConfirmTransaction = () => {
+  const handleConfirmTransaction = (phone: string) => {
+    // 預留給之後接後端使用
+    console.log('送出訂單，電話:', phone);
     setCartItems([]);
     setIsCartOpen(false);
     setIsOrderConfirmOpen(false);

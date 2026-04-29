@@ -5,7 +5,7 @@ import type { CartItem } from './Cart';
 interface OrderConfirmModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: (phone: string) => void;
   items: CartItem[];
 }
 
@@ -17,12 +17,14 @@ export const OrderConfirmModal: React.FC<OrderConfirmModalProps> = ({
 }) => {
   const [isProcessing, setIsProcessing] = React.useState(false);
   const [isSuccess, setIsSuccess] = React.useState(false);
+  const [phone, setPhone] = React.useState('');
 
   // 當 modal 關閉時重置狀態
   React.useEffect(() => {
     if (!isOpen) {
       setIsProcessing(false);
       setIsSuccess(false);
+      setPhone('');
     }
   }, [isOpen]);
 
@@ -31,6 +33,10 @@ export const OrderConfirmModal: React.FC<OrderConfirmModalProps> = ({
   const total = items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
 
   const handleMockCheckout = () => {
+    if (!phone.trim()) {
+      alert('請輸入取餐電話號碼');
+      return;
+    }
     setIsProcessing(true);
     // 模擬 2 秒鐘的 API 延遲
     setTimeout(() => {
@@ -38,7 +44,7 @@ export const OrderConfirmModal: React.FC<OrderConfirmModalProps> = ({
       setIsSuccess(true);
       // 顯示成功 1.5 秒後關閉並送出
       setTimeout(() => {
-        onConfirm();
+        onConfirm(phone);
       }, 1500);
     }, 2000);
   };
@@ -67,6 +73,17 @@ export const OrderConfirmModal: React.FC<OrderConfirmModalProps> = ({
         ) : (
           <>
             <h2>確認您的訂購明細</h2>
+            
+            <div className="confirm-input-group">
+              <label htmlFor="phone">取餐電話號碼</label>
+              <input
+                id="phone"
+                type="tel"
+                placeholder="例如: 0912345678"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
+            </div>
             
             <div className="confirm-items">
               {items.map(item => (
@@ -137,6 +154,36 @@ export const OrderConfirmModal: React.FC<OrderConfirmModalProps> = ({
           font-size: 1.4rem;
           text-align: center;
           color: white;
+        }
+
+        .confirm-input-group {
+          margin-bottom: var(--spacing-5);
+          display: flex;
+          flex-direction: column;
+          gap: var(--spacing-2);
+        }
+
+        .confirm-input-group label {
+          color: var(--color-text-primary);
+          font-weight: 500;
+          font-size: 0.95rem;
+        }
+
+        .confirm-input-group input {
+          width: 100%;
+          padding: var(--spacing-3);
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: var(--radius-md);
+          color: white;
+          font-size: 1rem;
+          transition: border-color 0.2s, background 0.2s;
+        }
+
+        .confirm-input-group input:focus {
+          outline: none;
+          border-color: var(--color-bg-accent);
+          background: rgba(255, 255, 255, 0.1);
         }
 
         .confirm-items {
