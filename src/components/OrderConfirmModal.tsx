@@ -5,7 +5,7 @@ import type { CartItem } from './Cart';
 interface OrderConfirmModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: (phone: string) => void;
+  onConfirm: (phone: string) => Promise<void> | void;
   items: CartItem[];
 }
 
@@ -32,21 +32,26 @@ export const OrderConfirmModal: React.FC<OrderConfirmModalProps> = ({
 
   const total = items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
 
-  const handleMockCheckout = () => {
+  const handleMockCheckout = async () => {
     if (!phone.trim()) {
       alert('請輸入取餐電話號碼');
       return;
     }
     setIsProcessing(true);
-    // 模擬 2 秒鐘的 API 延遲
-    setTimeout(() => {
+    
+    try {
+      await onConfirm(phone);
       setIsProcessing(false);
       setIsSuccess(true);
-      // 顯示成功 1.5 秒後關閉並送出
+      // 顯示成功 1.5 秒後關閉
       setTimeout(() => {
-        onConfirm(phone);
+        onClose();
       }, 1500);
-    }, 2000);
+    } catch (error) {
+      console.error(error);
+      alert('送出訂單失敗，請稍後再試');
+      setIsProcessing(false);
+    }
   };
 
   return (

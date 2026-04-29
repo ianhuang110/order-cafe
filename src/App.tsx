@@ -7,6 +7,8 @@ import { ItemModifierModal, type ModifierSelection } from './components/ItemModi
 import { OrderConfirmModal } from './components/OrderConfirmModal';
 import { PromoBanner } from './components/PromoBanner';
 import type { MenuItem } from './data/menu';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from './lib/firebase';
 
 function App() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -101,12 +103,34 @@ function App() {
     setIsOrderConfirmOpen(true);
   };
 
-  const handleConfirmTransaction = (phone: string) => {
-    // 預留給之後接後端使用
-    console.log('送出訂單，電話:', phone);
-    setCartItems([]);
-    setIsCartOpen(false);
-    setIsOrderConfirmOpen(false);
+  const handleConfirmTransaction = async (phone: string) => {
+    try {
+      const totalAmount = cartItems.reduce((acc, item) => acc + item.quantity * item.unitPrice, 0);
+      const orderData = {
+        tableNumber: tableNumber || '外帶',
+        phone,
+        items: cartItems.map(item => ({
+          id: item.id,
+          name: item.name,
+          quantity: item.quantity,
+          unitPrice: item.unitPrice,
+          modifiers: item.modifiers || {}
+        })),
+        totalAmount,
+        status: 'pending',
+        createdAt: new Date().toISOString()
+      };
+
+      const docRef = await addDoc(collection(db, 'orders'), orderData);
+      console.log('訂單已送出，ID:', docRef.id);
+      
+      setCartItems([]);
+      setIsCartOpen(false);
+      // 不要在這裡關閉 setIsOrderConfirmOpen，交由 Modal 自己的 success 動畫結束後呼叫 onClose
+    } catch (error) {
+      console.error('新增訂單失敗:', error);
+      throw error;
+    }
   };
 
   return (
