@@ -63,7 +63,7 @@ export function AdminDashboard() {
   const formatModifiers = (modifiers: Record<string, string | string[]>) => {
     if (!modifiers || Object.keys(modifiers).length === 0) return '';
     return Object.entries(modifiers)
-      .map(([key, value]) => {
+      .map(([, value]) => {
         if (Array.isArray(value)) return value.join(', ');
         return value;
       })
