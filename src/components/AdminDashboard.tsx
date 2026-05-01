@@ -71,6 +71,36 @@ export function AdminDashboard() {
       .join(' / ');
   };
 
+  const updateItemQuantity = async (orderId: string, itemIndex: number, delta: number) => {
+    const order = orders.find(o => o.id === orderId);
+    if (!order) return;
+
+    const newItems = [...order.items];
+    const newQuantity = newItems[itemIndex].quantity + delta;
+    
+    if (newQuantity <= 0) {
+      if (window.confirm(`確定要刪除 ${newItems[itemIndex].name} 嗎？`)) {
+        newItems.splice(itemIndex, 1);
+      } else {
+        return;
+      }
+    } else {
+      newItems[itemIndex] = { ...newItems[itemIndex], quantity: newQuantity };
+    }
+
+    const newTotalAmount = newItems.reduce((sum, item) => sum + (item.unitPrice * item.quantity), 0);
+
+    try {
+      await updateDoc(doc(db, 'orders', orderId), { 
+        items: newItems,
+        totalAmount: newTotalAmount
+      });
+    } catch (error) {
+      console.error('更新數量失敗', error);
+      alert('更新數量失敗');
+    }
+  };
+
   // 分組與統計
   const groupedOrders = orders.reduce((group, order) => {
     const d = new Date(order.createdAt);
@@ -147,7 +177,11 @@ export function AdminDashboard() {
                               <li key={idx}>
                                 <div className="item-main">
                                   <span className="item-name">{item.name}</span>
-                                  <span className="item-qty">x{item.quantity}</span>
+                                  <div className="item-qty-control">
+                                    <button onClick={() => updateItemQuantity(order.id, idx, -1)} className="qty-btn" title="減少數量">-</button>
+                                    <span className="qty-num">{item.quantity}</span>
+                                    <button onClick={() => updateItemQuantity(order.id, idx, 1)} className="qty-btn" title="增加數量">+</button>
+                                  </div>
                                 </div>
                                 {formatModifiers(item.modifiers) && (
                                   <div className="item-mods">{formatModifiers(item.modifiers)}</div>
@@ -374,6 +408,7 @@ export function AdminDashboard() {
         .item-main {
           display: flex;
           justify-content: space-between;
+          align-items: center;
           margin-bottom: 0.25rem;
         }
 
@@ -382,9 +417,42 @@ export function AdminDashboard() {
           color: #eee;
         }
 
-        .item-qty {
+        .item-qty-control {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          background: rgba(212, 175, 55, 0.08);
+          border-radius: 4px;
+          padding: 0.125rem;
+          border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .qty-btn {
+          background: transparent;
+          border: none;
           color: #d4af37;
+          width: 24px;
+          height: 24px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          border-radius: 4px;
+          font-weight: bold;
+          font-size: 1.1rem;
+          transition: all 0.2s;
+        }
+
+        .qty-btn:hover {
+          background: rgba(212, 175, 55, 0.2);
+        }
+
+        .qty-num {
+          color: #fff;
           font-weight: 600;
+          min-width: 1.25rem;
+          text-align: center;
+          font-size: 0.9rem;
         }
 
         .item-mods {
