@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
+import React, { useState, useEffect } from 'react';
+import { collection, query, orderBy, onSnapshot, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
-import { Coffee, Clock, CheckCircle, Package } from 'lucide-react';
+import { Coffee, Clock, CheckCircle, Package, Trash2 } from 'lucide-react';
 
 interface OrderItem {
   id: string;
@@ -71,6 +71,19 @@ export function AdminDashboard() {
       .join(' / ');
   };
 
+  // 分組與統計
+  const groupedOrders = orders.reduce((group, order) => {
+    const d = new Date(order.createdAt);
+    const dateKey = `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}`;
+    if (!group[dateKey]) group[dateKey] = [];
+    group[dateKey].push(order);
+    return group;
+  }, {} as Record<string, Order[]>);
+
+  const today = new Date();
+  const todayKey = `${today.getFullYear()}/${today.getMonth() + 1}/${today.getDate()}`;
+  const todayOrdersCount = groupedOrders[todayKey]?.length || 0;
+
   return (
     <div className="admin-container">
       <header className="admin-header">
@@ -82,7 +95,7 @@ export function AdminDashboard() {
           <div className="stats">
             <div className="stat-card">
               <span className="stat-label">今日總訂單</span>
-              <span className="stat-value">{orders.length}</span>
+              <span className="stat-value">{todayOrdersCount}</span>
             </div>
             <div className="stat-card">
               <span className="stat-label">待處理</span>
@@ -109,47 +122,80 @@ export function AdminDashboard() {
                   <th>聯絡電話</th>
                   <th>訂單內容</th>
                   <th>總計</th>
-                  <th>狀態</th>
+                  <th>狀態 (點擊修改)</th>
+                  <th>操作</th>
                 </tr>
               </thead>
               <tbody>
-                {orders.map((order) => (
-                  <tr key={order.id} className={order.status === 'pending' ? 'row-pending' : ''}>
-                    <td className="time-col">{formatTime(order.createdAt)}</td>
-                    <td className="table-col">
-                      <span className={`table-badge ${order.tableNumber === '外帶' ? 'takeout' : 'dine-in'}`}>
-                        {order.tableNumber}
-                      </span>
-                    </td>
-                    <td className="phone-col">{order.phone || '無'}</td>
-                    <td className="items-col">
-                      <ul className="item-list">
-                        {order.items.map((item, idx) => (
-                          <li key={idx}>
-                            <div className="item-main">
-                              <span className="item-name">{item.name}</span>
-                              <span className="item-qty">x{item.quantity}</span>
-                            </div>
-                            {formatModifiers(item.modifiers) && (
-                              <div className="item-mods">{formatModifiers(item.modifiers)}</div>
-                            )}
-                          </li>
-                        ))}
-                      </ul>
-                    </td>
-                    <td className="amount-col">${order.totalAmount}</td>
-                    <td className="status-col">
-                      <span className={`status-badge status-${order.status || 'pending'}`}>
-                        {order.status === 'pending' ? (
-                          <><Clock size={14} /> 待處理</>
-                        ) : order.status === 'completed' ? (
-                          <><CheckCircle size={14} /> 已完成</>
-                        ) : (
-                          <><Package size={14} /> 取消</>
-                        )}
-                      </span>
-                    </td>
-                  </tr>
+                {Object.entries(groupedOrders).map(([dateStr, dateOrders]) => (
+                  <React.Fragment key={dateStr}>
+                    <tr className="date-header-row">
+                      <td colSpan={7} className="date-header">{dateStr}</td>
+                    </tr>
+                    {dateOrders.map((order) => (
+                      <tr key={order.id} className={order.status === 'pending' ? 'row-pending' : ''}>
+                        <td className="time-col">{formatTime(order.createdAt)}</td>
+                        <td className="table-col">
+                          <span className={`table-badge ${order.tableNumber === '外帶' ? 'takeout' : 'dine-in'}`}>
+                            {order.tableNumber}
+                          </span>
+                        </td>
+                        <td className="phone-col">{order.phone || '無'}</td>
+                        <td className="items-col">
+                          <ul className="item-list">
+                            {order.items.map((item, idx) => (
+                              <li key={idx}>
+                                <div className="item-main">
+                                  <span className="item-name">{item.name}</span>
+                                  <span className="item-qty">x{item.quantity}</span>
+                                </div>
+                                {formatModifiers(item.modifiers) && (
+                                  <div className="item-mods">{formatModifiers(item.modifiers)}</div>
+                                )}
+                              </li>
+                            ))}
+                          </ul>
+                        </td>
+                        <td className="amount-col">${order.totalAmount}</td>
+                        <td className="status-col">
+                          <select
+                            value={order.status || 'pending'}
+                            onChange={async (e) => {
+                              try {
+                                await updateDoc(doc(db, 'orders', order.id), { status: e.target.value });
+                              } catch (err) {
+                                console.error('更新狀態失敗', err);
+                                alert('更新狀態失敗');
+                              }
+                            }}
+                            className={`status-select status-${order.status || 'pending'}`}
+                          >
+                            <option value="pending">待處理</option>
+                            <option value="completed">已完成</option>
+                            <option value="cancelled">取消</option>
+                          </select>
+                        </td>
+                        <td className="action-col">
+                          <button
+                            onClick={async () => {
+                              if (window.confirm('確定要刪除這筆訂單嗎？')) {
+                                try {
+                                  await deleteDoc(doc(db, 'orders', order.id));
+                                } catch (err) {
+                                  console.error('刪除失敗', err);
+                                  alert('刪除失敗');
+                                }
+                              }
+                            }}
+                            className="delete-btn"
+                            title="刪除訂單"
+                          >
+                            <Trash2 size={18} />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </React.Fragment>
                 ))}
               </tbody>
             </table>
@@ -376,6 +422,82 @@ export function AdminDashboard() {
           background: rgba(34, 197, 94, 0.15);
           color: #4ade80;
           border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .date-header-row {
+          background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .date-header {
+          font-weight: 700;
+          color: #d4af37;
+          padding: 1rem !important;
+          font-size: 1.1rem;
+          border-bottom: 2px solid #333 !important;
+        }
+
+        .status-select {
+          background: #2a2a2a;
+          border: 1px solid rgba(255,255,255,0.1);
+          color: inherit;
+          padding: 0.375rem 0.5rem;
+          border-radius: 6px;
+          font-size: 0.875rem;
+          cursor: pointer;
+          outline: none;
+          font-family: inherit;
+          font-weight: 500;
+          transition: all 0.2s;
+        }
+
+        .status-select:focus {
+          border-color: #d4af37;
+        }
+
+        .status-select option {
+          background: #222;
+          color: #fff;
+        }
+
+        .status-select.status-pending {
+          color: #d4af37;
+          border-color: rgba(212, 175, 55, 0.5);
+          background: rgba(212, 175, 55, 0.05);
+        }
+
+        .status-select.status-completed {
+          color: #4ade80;
+          border-color: rgba(34, 197, 94, 0.5);
+          background: rgba(34, 197, 94, 0.05);
+        }
+
+        .status-select.status-cancelled {
+          color: #f87171;
+          border-color: rgba(248, 113, 113, 0.5);
+          background: rgba(248, 113, 113, 0.05);
+        }
+
+        .action-col {
+          text-align: center;
+          vertical-align: middle !important;
+        }
+
+        .delete-btn {
+          background: transparent;
+          border: none;
+          color: #666;
+          cursor: pointer;
+          padding: 0.5rem;
+          border-radius: 6px;
+          transition: all 0.2s;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .delete-btn:hover {
+          background: rgba(248, 113, 113, 0.1);
+          color: #f87171;
         }
 
         @media (max-width: 1024px) {
